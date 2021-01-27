@@ -6,7 +6,9 @@ class GameEngine {
         this.showOutlines = false;
         this.ctx = null;
         this.click = null;
+        this.click = [];
         this.mouse = null;
+        this.mouse = [];
         this.wheel = null;
         this.surfaceWidth = null;
         this.surfaceHeight = null;
@@ -31,6 +33,7 @@ class GameEngine {
     startInput() {
         var that = this;
 
+        // //original function
         var getXandY = function (e) {
             var x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
             var y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
@@ -41,17 +44,21 @@ class GameEngine {
         this.ctx.canvas.addEventListener("mousemove", function (e) {
             //console.log(getXandY(e));
             that.mouse = getXandY(e);
+            that.mouse[0] = that.mouse.x;
+            that.mouse[1] = that.mouse.y;
         }, false);
 
         this.ctx.canvas.addEventListener("click", function (e) {
-            //console.log(getXandY(e));
+            console.log(getXandY(e));
             that.click = getXandY(e);
+            that.click[0] = that.click.x;
+            that.click[1] = that.click.y;
         }, false);
 
         this.ctx.canvas.addEventListener("wheel", function (e) {
             //console.log(getXandY(e));
             that.wheel = e;
-            //       console.log(e.wheelDelta);
+            //console.log(e.wheelDelta);
             e.preventDefault();
         }, false);
 
