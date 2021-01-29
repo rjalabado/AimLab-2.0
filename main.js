@@ -13,5 +13,13 @@ ASSET_MANAGER.downloadAll(function () {
 
 	new SceneManager(gameEngine);
 
+	canvas.requestPointerLock = canvas.requestPointerLock ||
+                            canvas.mozRequestPointerLock;
+
+	canvas.onclick = function(){
+		   canvas.requestPointerLock();
+	};
+
 	gameEngine.start();
 });
+
