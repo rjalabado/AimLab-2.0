@@ -73,3 +73,29 @@ class AimBall {
     //     }
     // }
 }
+
+class Cursor{
+	 constructor(game, x, y) {
+        Object.assign(this, { game });
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pokeball.png");
+        this.x = x;
+        this.y = y;
+        this.animation = new Animator(this.spritesheet, 80, 17, 51, 51, 1, .30, 0, false, true);
+        this.destroyed = false;
+    }
+
+    draw(ctx) {
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1);
+    }
+
+    update() {
+        if (this.onTop() == true) {
+            this.removeFromWorld = true;
+            console.log("removed");
+        } else {
+            // this.animation = new Animator(this.spritesheet, 80, 17, 51, 51, 1, .30, 0, false, true);
+        }
+
+        // if it is destroyed, add a boolean to say it was destroyed
+    }
+}
