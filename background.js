@@ -83,7 +83,8 @@ class Cursor{
         this.animation = new Animator(this.spritesheet, 80, 17, 51, 51, 1, .30, 0, false, true);
         this.destroyed = false;
     }
-
+	//console.log("X" + game.mouse[0]);
+	//console.log("Y" + game.mouse[1]);
     draw(ctx) {
         this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1);
     }

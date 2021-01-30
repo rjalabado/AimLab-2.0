@@ -1,8 +1,8 @@
 var gameEngine = new GameEngine();
 var ASSET_MANAGER = new AssetManager();
 //var SCENE_MANAGER = new SceneManager(gameEngine);
-var x;
-var y;
+var x = 69;
+var y = 69;
 
 ASSET_MANAGER.queueDownload("./sprites/JAPAN.jpg");
 ASSET_MANAGER.queueDownload("./sprites/pokeball.png");
@@ -48,8 +48,8 @@ ASSET_MANAGER.downloadAll(function () {
 	function updatePosition(e) {
 
 		
-		x = gameEngine.mouse[0];
-		y = gameEngine.mouse[1];
+		//x = gameEngine.mouse[0];
+		//y = gameEngine.mouse[1];
 		tracker.textContent = "X position: " + x + ", Y position: " + y;
 
 		if (!animation) {
@@ -59,11 +59,11 @@ ASSET_MANAGER.downloadAll(function () {
 				//console.log("Y movement: " + e.movementY);
 				let xCoord = gameEngine.mouse[0];
 				let yCoord = gameEngine.mouse[1];
-				x += gameEngine.mouse[0] + e.movementX;
-				y += gameEngine.mouse[1] + e.movementy;
-				console.log("X" + x);
-				console.log("Y" + y);
-				SCENE_MANAGER.drawCursor(xCoord,yCoord);
+				x +=  e.movementX;
+				y +=  e.movementY;
+				//console.log("X" + x);
+				//console.log("Y" + y);
+				//SCENE_MANAGER.drawCursor(xCoord,yCoord);
 				
 			});
 		}

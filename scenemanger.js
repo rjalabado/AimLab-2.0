@@ -6,8 +6,8 @@ class SceneManager {
     };
 
     drawStuff() {
-        // var background = new Background(gameEngine);
-        // this.game.addEntity(background);
+         var background = new Background(gameEngine);
+         this.game.addEntity(background);
 
         var aimball = new AimBall(gameEngine, 500, 250);
         this.game.addEntity(aimball);
@@ -18,10 +18,10 @@ class SceneManager {
         var aimball = new AimBall(gameEngine, 69, 420);
         this.game.addEntity(aimball);
     };
-    drawCursor(x,y){
-	var xCoord = this.game.mouse[0];
-	var yCoord = this.game.mouse[1];
-	var cursor = new Cursor(gameEngine,xCoord,yCoord);
-	this.game.addEntity(cursor);
-    };
+    //drawCursor(x,y){
+	//var xCoord = this.game.mouse[0];
+	//var yCoord = this.game.mouse[1];
+	//var cursor = new Cursor(gameEngine,xCoord,yCoord);
+	//this.game.addEntity(cursor);
+    //};
 }
