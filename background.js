@@ -75,7 +75,7 @@ class AimBall {
 }
 
 class Cursor{
-	 constructor(game, x, y) {
+	constructor(game, x, y) {
         Object.assign(this, { game });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pokeball.png");
         this.x = x;
@@ -97,5 +97,17 @@ class Cursor{
         }
 
         // if it is destroyed, add a boolean to say it was destroyed
+    }
+
+    // checks if a click overlapped the ball
+    onTop() {
+        if (this.x <= this.game.click[0] && this.game.click[0] <= this.x + 51
+            && this.y <= this.game.click[1] && this.game.click[1] <= this.y + 51) {
+                console.log(this.game.click[0] + " " + this.game.click[1]);
+                this.game.click = [];
+                return true;
+        } else {
+            return false;
+        }
     }
 }
