@@ -1,6 +1,5 @@
 var gameEngine = new GameEngine();
 var ASSET_MANAGER = new AssetManager();
-//var SCENE_MANAGER = new SceneManager(gameEngine);
 var x = 69;
 var y = 69;
 
@@ -21,12 +20,14 @@ ASSET_MANAGER.downloadAll(function () {
 		canvas.requestPointerLock || canvas.mozRequestPointerLock;
 
 	document.exitPointerLock = 
-		document.exitPointerLock
-		||
-		document.mozExitPointerLock;
+		document.exitPointerLock || document.mozExitPointerLock;
 		
+	
+	this.click = []
 	canvas.onclick = function(){
 		canvas.requestPointerLock();
+		click[0] = x;
+		click[1] = y;
 	};
 
 	document.addEventListener('pointerlockchange', lockChangeAlert, false);
@@ -46,30 +47,32 @@ ASSET_MANAGER.downloadAll(function () {
 	var tracker = document.getElementById('tracker');
 	var animation;
 	function updatePosition(e) {
-
-		
-		//x = gameEngine.mouse[0];
-		//y = gameEngine.mouse[1];
 		tracker.textContent = "X position: " + x + ", Y position: " + y;
 
 		if (!animation) {
 			animation = requestAnimationFrame(function() {
 				animation = null;
-				//console.log("X movement: " + e.movementX);
-				//console.log("Y movement: " + e.movementY);
-				let xCoord = gameEngine.mouse[0];
-				let yCoord = gameEngine.mouse[1];
 				x +=  e.movementX;
 				y +=  e.movementY;
-				//console.log("X" + x);
-				//console.log("Y" + y);
-				//SCENE_MANAGER.drawCursor(xCoord,yCoord);
 				
 			});
 		}
-		
-	}
-	
+
+		if(x > canvas.width){
+			console.log("out of bounds");
+			x = 0;
+		}
+		if(x < 0){
+			console.log("out of bounds");
+			x = canvas.width;
+		}
+		if(y > canvas.height){
+			y = 0;
+		}
+		if ( y < 0){
+			y = canvas.height;
+		}
+	}	
 	gameEngine.start();
 });
 
