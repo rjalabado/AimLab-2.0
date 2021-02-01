@@ -13,13 +13,8 @@ class Background {
     }
 
     update() {
-        // if (this.game.cameraX == null && this.game.cameraY == null) {
-        //     this.animation = new Animator(this.spritesheet, 0, 0, 3840, 2400, 1, .30, 0, false, true);
-        // } else {
-
-            this.animation = new Animator(this.spritesheet, this.game.cameraX, this.game.cameraY, 
-                this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
-        // }
+        this.animation = new Animator(this.spritesheet, this.game.cameraX, this.game.cameraY, 
+            this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
     }
 }
 
@@ -49,45 +44,6 @@ class AimBall {
         this.destroyed = false;
     }
 
-    draw(ctx) {
-        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1);
-    }
-
-    update() {
-        if (this.onTop() == true) {
-            this.removeFromWorld = true;
-            console.log("removed");
-        } else {
-            // this.animation = new Animator(this.spritesheet, 80, 17, 51, 51, 1, .30, 0, false, true);
-        }
-
-        // if it is destroyed, add a boolean to say it was destroyed
-    }
-
-    // checks if a click overlapped the ball
-    onTop() {
-        if (this.x <= this.game.click[0] && this.game.click[0] <= this.x + 51
-            && this.y <= this.game.click[1] && this.game.click[1] <= this.y + 51) {
-                console.log(this.game.click[0] + " " + this.game.click[1]);
-                this.game.click = [];
-                return true;
-        } else {
-            return false;
-        }
-    }
-}
-
-class Cursor{
-	constructor(game, x, y) {
-        Object.assign(this, { game });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/pokeball.png");
-        this.x = x;
-        this.y = y;
-        this.animation = new Animator(this.spritesheet, 80, 17, 51, 51, 1, .30, 0, false, true);
-        this.destroyed = false;
-    }
-	//console.log("X" + game.mouse[0]);
-	//console.log("Y" + game.mouse[1]);
     draw(ctx) {
         this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1);
     }

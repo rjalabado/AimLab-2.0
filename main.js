@@ -40,7 +40,7 @@ ASSET_MANAGER.downloadAll(function () {
 			document.addEventListener("mousemove", updatePosition, false);
 		} else {
 			console.log('The pointer lock status is now unlocked');
-			gameEngine.setCamera(null,null);
+			gameEngine.setCamera(453,249);
 			document.removeEventListener("mousemove", updatePosition, false);
 		}
 	}
