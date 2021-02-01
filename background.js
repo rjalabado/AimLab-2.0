@@ -3,13 +3,13 @@ const VISIBLE_X = 1280, VISIBLE_Y = 720;
 class Background {
     constructor(game) {
         Object.assign(this, { game });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/JAPAN.jpg");
-        this.animation = new Animator(this.spritesheet, 0, 0, 3840, 2400, 1, .30, 0, false, true);
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/stockAimlabWallpaper.png");
+        this.animation = new Animator(this.spritesheet, 0, 0, 1919, 1080, 1, .30, 0, false, true);
     };
 
     draw(ctx) {
         //ctx.drawImage(this.spritesheet, 0, 0)
-        this.animation.drawFrame(this.game.clockTick, ctx, 0, 0, 1);
+        this.animation.drawFrame(this.game.clockTick, ctx, 0, 0, 1.3);
     }
 
     update() {

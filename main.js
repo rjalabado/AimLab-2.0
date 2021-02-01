@@ -7,6 +7,7 @@ var ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./sprites/JAPAN.jpg");
 ASSET_MANAGER.queueDownload("./sprites/pokeball.png");
 ASSET_MANAGER.queueDownload("./sprites/reticle.png");
+ASSET_MANAGER.queueDownload("./sprites/stockAimlabWallpaper.png");
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
@@ -58,8 +59,8 @@ ASSET_MANAGER.downloadAll(function () {
 
 				if (x < 0) x = 0;
 				if (y < 0) y = 0;
-				if (x > 3840 - (1080 + 1080/5)) x = 3840 - (1080 + 1080/5);
-				if (y > 2400 - 720) y = 2400 - 720;
+				if (x > 1919 - (1080 + 1080/5)) x = 1919 - (1080 + 1080/5);
+				if (y > 1080 - 720) y = 1080 - 720;
 					// makes sure the camera stays within the borders
 					// tailored to the specific photo, should be changed to variables
 				
