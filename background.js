@@ -4,7 +4,7 @@ class Background {
     constructor(game) {
         Object.assign(this, { game });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/JAPAN.jpg");
-        this.animation = new Animator(this.spritesheet, 0, 0, 7952, 5304, 1, .30, 0, false, true);
+        this.animation = new Animator(this.spritesheet, 0, 0, 3840, 2400, 1, .30, 0, false, true);
     };
 
     draw(ctx) {
@@ -13,13 +13,32 @@ class Background {
     }
 
     update() {
-        // var mouse = this.game.mouse;
-        this.animation = new Animator(this.spritesheet, 0, 2500, 1280, 720, 1, .30, 0, false, true);
-        // console.log(this.game.mouse[0] + " " + this.game.mouse[1]);
-        //console.log(mouse.x + " " + mouse.y)
+        // if (this.game.cameraX == null && this.game.cameraY == null) {
+        //     this.animation = new Animator(this.spritesheet, 0, 0, 3840, 2400, 1, .30, 0, false, true);
+        // } else {
+
+            this.animation = new Animator(this.spritesheet, this.game.cameraX, this.game.cameraY, 
+                this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
+        // }
     }
 }
 
+class Reticle {
+    constructor(game) {
+        Object.assign(this, { game });
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/reticle.png");
+        this.animation = new Animator(this.spritesheet, 0, 0, 128, 128, 1, .30, 0, false, true);
+    }
+
+    draw(ctx) {
+        this.animation.drawFrame(this.game.clockTick, ctx, (1280/2)-(64*.5), (720/2)-(64*.5), .5);
+    }
+
+    update() {
+    }
+}
+
+// I think an idea to make sure the aimballs stay on one point is to make another ctx?
 class AimBall {
     constructor(game, x, y) {
         Object.assign(this, { game });
@@ -56,22 +75,6 @@ class AimBall {
             return false;
         }
     }
-
-    // random(b) {
-    //     if (b) {    // random width
-    //         let a = Math.floor((Math.random()*1000)+1);
-    //         while (a >= 200) {
-    //             a = Math.floor((Math.random()*1000)+1);
-    //         }
-    //         return a;
-    //     } else {    // random height
-    //         let a = Math.floor((Math.random()*700)+1);
-    //         while (a >= 20) {
-    //             a = Math.floor((Math.random()*700)+1);
-    //         }
-    //         return a;
-    //     }
-    // }
 }
 
 class Cursor{

@@ -56,7 +56,7 @@ class GameEngine {
         }, false);
 
         this.ctx.canvas.addEventListener("click", function (e) {
-            //console.log(getXandY(e));
+            console.log(getXandY(e));
             that.click = getXandY(e);
             that.click[0] = that.click.x;
             that.click[1] = that.click.y;

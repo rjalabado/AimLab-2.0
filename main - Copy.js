@@ -3,12 +3,7 @@ var y = 69;
 
 var gameEngine = new GameEngine();
 var ASSET_MANAGER = new AssetManager();
-<<<<<<< Updated upstream
-var x = 69;
-var y = 69;
-=======
 //var SCENE_MANAGER = new SceneManager(gameEngine);
->>>>>>> Stashed changes
 
 ASSET_MANAGER.queueDownload("./sprites/JAPAN.jpg");
 ASSET_MANAGER.queueDownload("./sprites/pokeball.png");
@@ -25,14 +20,12 @@ ASSET_MANAGER.downloadAll(function () {
 		canvas.requestPointerLock || canvas.mozRequestPointerLock;
 
 	document.exitPointerLock = 
-		document.exitPointerLock || document.mozExitPointerLock;
+		document.exitPointerLock
+		||
+		document.mozExitPointerLock;
 		
-	
-	this.click = []
 	canvas.onclick = function(){
 		canvas.requestPointerLock();
-		click[0] = x;
-		click[1] = y;
 	};
 
 	document.addEventListener('pointerlockchange', lockChangeAlert, false);
@@ -53,15 +46,15 @@ ASSET_MANAGER.downloadAll(function () {
 	var tracker = document.getElementById('tracker');
 	var animation;
 	function updatePosition(e) {
+
+		
+		//x = gameEngine.mouse[0];
+		//y = gameEngine.mouse[1];
 		tracker.textContent = "X position: " + x + ", Y position: " + y;
 
 		if (!animation) {
 			animation = requestAnimationFrame(function() {
 				animation = null;
-<<<<<<< Updated upstream
-				x +=  e.movementX;
-				y +=  e.movementY;
-=======
 
 				x +=  e.movementX;
 				y +=  e.movementY;
@@ -72,34 +65,14 @@ ASSET_MANAGER.downloadAll(function () {
 				if (y > 2400 - 720) y = 2400 - 720;
 					// makes sure the camera stays within the borders
 					// tailored to the specific photo, should be changed to variables
->>>>>>> Stashed changes
 				
 				gameEngine.setCamera(x,y);	
 					// added this so gameengine can recieve coordinates, 
 					// but it sets a delay(?) if you esc to free mouse and immediately try to lock again
 			});
 		}
-<<<<<<< Updated upstream
-
-		if(x > canvas.width){
-			console.log("out of bounds");
-			x = 0;
-		}
-		if(x < 0){
-			console.log("out of bounds");
-			x = canvas.width;
-		}
-		if(y > canvas.height){
-			y = 0;
-		}
-		if ( y < 0){
-			y = canvas.height;
-		}
-	}	
-=======
 	}
 	
->>>>>>> Stashed changes
 	gameEngine.start();
 });
 
