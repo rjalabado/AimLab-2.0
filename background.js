@@ -10,6 +10,7 @@ class Background {
     draw(ctx) {
         //ctx.drawImage(this.spritesheet, 0, 0)
         this.animation.drawFrame(this.game.clockTick, ctx, 0, 0, 1.3);
+        
     }
 
     update() {
