@@ -31,6 +31,7 @@ class Reticle {
     }
 
     update() {
+        // test text
     }
 }
 
