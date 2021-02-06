@@ -32,6 +32,7 @@ class Reticle {
 
     update() {
         console.log("test");
+        
     }
 }
 
