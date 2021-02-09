@@ -2,6 +2,7 @@ class SceneManager {
     
     constructor(game) {
         this.game = game;
+        // this.gameBall = gameBall;
         this.drawStuff();
     };
 
@@ -9,12 +10,11 @@ class SceneManager {
         var background = new Background(gameEngine);
         this.game.addEntity(background);
 
+        var aimball = new AimBall(gameEngine, 500, 250);
+        this.game.addEntity(aimball);
+
         var reticle = new Reticle(gameEngine);
         this.game.addEntity(reticle);
-
-
-        // var aimball = new AimBall(gameEngine, 500, 250);
-        // this.game.addEntity(aimball);
         // aimball = new AimBall(gameEngine, 1000, 300);
         // this.game.addEntity(aimball);
         // var aimball = new AimBall(gameEngine, 21, 21);

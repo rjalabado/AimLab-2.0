@@ -2,17 +2,19 @@ var x = 69;
 var y = 69;
 
 var gameEngine = new GameEngine();
+var gameEngineAimball = new GameEngine();
 var ASSET_MANAGER = new AssetManager();
 
-ASSET_MANAGER.queueDownload("./sprites/JAPAN.jpg");
 ASSET_MANAGER.queueDownload("./sprites/pokeball.png");
 ASSET_MANAGER.queueDownload("./sprites/reticle.png");
+ASSET_MANAGER.queueDownload("./sprites/theAimball.png");
 ASSET_MANAGER.queueDownload("./sprites/stockAimlabWallpaper.png");
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
 	gameEngine.init(ctx);
+
 	var SCENE_MANAGER = new SceneManager(gameEngine);
 
 
