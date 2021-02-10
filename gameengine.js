@@ -30,15 +30,6 @@ class GameEngine {
         this.cameraY = cameraY;
     };
 
-    setMouseMove(x, y) {
-        if (this.mouse[0] == null && this.mouse[1] == null) {
-            this.mouse[0] = x;
-            this.mouse[1] = y;
-        } else {
-            
-        }
-    }
-
     setClickFlag(clickFlag) {
         this.clickFlag = clickFlag;
     }

@@ -2,7 +2,7 @@ class SceneManager {
     
     constructor(game) {
         this.game = game;
-        // this.gameBall = gameBall;
+        this.aimball = [];
         this.drawStuff();
     };
 
@@ -10,19 +10,16 @@ class SceneManager {
         var background = new Background(gameEngine);
         this.game.addEntity(background);
 
-        var aimball = new AimBall(gameEngine, 500, 250);
-        this.game.addEntity(aimball);
+        this.aimball[0] = new AimBall(gameEngine, 500, 250, 0);
+        this.game.addEntity(this.aimball[0]);
 
-        aimball = new AimBall(gameEngine, 300, 200);
-        this.game.addEntity(aimball);
-        // var aimball = new AimBall(gameEngine, 21, 21);
-        // this.game.addEntity(aimball);
-        // var aimball = new AimBall(gameEngine, 69, 420);
-        // this.game.addEntity(aimball);
+        this.aimball[1]= new AimBall(gameEngine, 300, 200, 1);
+        this.game.addEntity(this.aimball[1]);
 
+        this.aimball[2]= new AimBall(gameEngine, 100, 150, 2);
+        this.game.addEntity(this.aimball[2]);
+        
         var reticle = new Reticle(gameEngine);
         this.game.addEntity(reticle);
-
-        console.log("scene");
     };
 }
