@@ -6,7 +6,8 @@ class GameEngine {
         this.showOutlines = false;
         this.ctx = null;
         this.click = null;
-        this.click = [];
+        // this.click = [];
+        this.clickFlag = false;
         this.mouse = null;
         this.mouse = [];
         this.wheel = null;
@@ -28,6 +29,19 @@ class GameEngine {
         this.cameraX = cameraX;
         this.cameraY = cameraY;
     };
+
+    setMouseMove(x, y) {
+        if (this.mouse[0] == null && this.mouse[1] == null) {
+            this.mouse[0] = x;
+            this.mouse[1] = y;
+        } else {
+            
+        }
+    }
+
+    setClickFlag(clickFlag) {
+        this.clickFlag = clickFlag;
+    }
 
     start() {
         var that = this;
@@ -58,8 +72,9 @@ class GameEngine {
         this.ctx.canvas.addEventListener("click", function (e) {
             //console.log(getXandY(e));
             that.click = getXandY(e);
-            that.click[0] = that.click.x;
-            that.click[1] = that.click.y;
+            // that.click[0] = that.click.x;
+            // that.click[1] = that.click.y;
+            that.setClickFlag(true);
         }, false);
 
         this.ctx.canvas.addEventListener("wheel", function (e) {
@@ -103,6 +118,8 @@ class GameEngine {
                 this.entities.splice(i, 1);
             }
         }
+
+        this.setClickFlag(false);
     };
 
     loop() {
