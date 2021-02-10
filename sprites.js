@@ -36,16 +36,15 @@ class Reticle {
 }
 
 class AimBall {
-    constructor(game, x, y, label) {
+    constructor(game, x, y) {
         Object.assign(this, { game });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/theAimball.png");
         this.x = x;
         this.y = y;
         this.animation = new Animator(this.spritesheet, 0, 0, 1920, 1080, 1, .30, 0, false, true);
-        this.destroyed = false;
         this.currentReticleX = (VISIBLE_X/2);
         this.currentReticleY = (VISIBLE_Y/2);
-        this.label = label;
+        // this.label = label;
     }
 
     draw(ctx) {
