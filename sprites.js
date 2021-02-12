@@ -44,6 +44,7 @@ class AimBall {
         this.animation = new Animator(this.spritesheet, 0, 0, 1920, 1080, 1, .30, 0, false, true);
         this.currentReticleX = (VISIBLE_X/2);
         this.currentReticleY = (VISIBLE_Y/2);
+		this.game = game;
         // this.label = label;
     }
 
@@ -56,8 +57,8 @@ class AimBall {
         this.animation = new Animator(this.spritesheet, this.game.cameraX, this.game.cameraY, 
             this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
         this.onCircle(this.game.cameraX + this.currentReticleX, this.game.cameraY + this.currentReticleY, this.game.clickFlag);
-        // adds current camera x,y + the current x,y reticle's center (the camera's exact center)
-    }
+		// adds current camera x,y + the current x,y reticle's center (the camera's exact center)
+	}
 
     // 61x61 pixes originally
     onCircle(reticleX, reticleY, clickFlag) {
@@ -73,6 +74,46 @@ class AimBall {
                 console.log("hit");
                 // this.game.setClickFlag(false); 
                 // caused a problem with layers (fixed, moved clickflag to update() in gameengine)
-            }
+        }
     }
+
+	turnOn(){
+		this.removeFromWorld = false;
+	};
+}
+
+//gamemode classes...
+
+class GridShot{
+	constructor(game){
+		this.game = game;
+		this.aimball = [];
+
+		this.aimball[0] = new Reticle(gameEngine);
+		
+		this.aimball[1] = new AimBall(gameEngine, 500, 250);
+        this.aimball[2]= new AimBall(gameEngine, 300, 200);
+        this.aimball[3]= new AimBall(gameEngine, 100, 150);
+        
+		this.game.addEntity(this.aimball[3]);
+		this.game.addEntity(this.aimball[2]);
+		this.game.addEntity(this.aimball[1]);
+		this.game.addEntity(this.aimball[0]);
+
+	}
+	draw(ctx){
+	
+	}
+	update(){
+		if(this.aimball[1].removeFromWorld == true && this.aimball[2].removeFromWorld == true && this.aimball[3].removeFromWorld == true){
+			this.aimball[1] = new AimBall(gameEngine, randomInt(500,100), randomInt(300,100));
+			this.game.addEntity(this.aimball[1]);
+
+			this.game.addEntity(this.aimball[0]);
+		};
+	}
+
+	randomInt(max, min) {
+		return Math.floor(Math.random() * max-min) + min + 1;
+	};
 }
