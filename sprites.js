@@ -105,15 +105,33 @@ class GridShot{
 	
 	}
 	update(){
-		if(this.aimball[1].removeFromWorld == true && this.aimball[2].removeFromWorld == true && this.aimball[3].removeFromWorld == true){
-			this.aimball[1] = new AimBall(gameEngine, randomInt(500,100), randomInt(300,100));
+		if(this.aimball[1].removeFromWorld == true){
+			var x = this.aimball[1].x;
+			var y = this.aimball[1].y;
+			this.aimball[1] = new AimBall(gameEngine, randomInt(x+100,x-100), randomInt(y+100,y-100));
 			this.game.addEntity(this.aimball[1]);
+
+			this.game.addEntity(this.aimball[0]);
+		};
+		if(this.aimball[2].removeFromWorld == true){
+			var x = this.aimball[2].x;
+			var y = this.aimball[2].y;
+			this.aimball[2] = new AimBall(gameEngine, randomInt(x+100,x-100), randomInt(y+100,y-100));
+			this.game.addEntity(this.aimball[2]);
+
+			this.game.addEntity(this.aimball[0]);
+		};
+		if(this.aimball[3].removeFromWorld == true){
+			var x = this.aimball[3].x;
+			var y = this.aimball[3].y;
+			this.aimball[3] = new AimBall(gameEngine, randomInt(x+100,x-100), randomInt(y+100,y-100));
+			this.game.addEntity(this.aimball[3]);
 
 			this.game.addEntity(this.aimball[0]);
 		};
 	}
 
 	randomInt(max, min) {
-		return Math.floor(Math.random() * max-min) + min + 1;
+		return Math.floor(Math.random() * max) + min + 1;
 	};
 }
