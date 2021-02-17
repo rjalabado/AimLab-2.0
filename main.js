@@ -7,14 +7,12 @@ var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./sprites/reticle.png");
 ASSET_MANAGER.queueDownload("./sprites/theAimball.png");
-ASSET_MANAGER.queueDownload("./sprites/aimball.png");
 ASSET_MANAGER.queueDownload("./sprites/finalWallpaper.png");
 ASSET_MANAGER.queueDownload("./sprites/uwu.png");
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
-	var ballhitSound = new Audio("./audio/wingmanSound.wav");
 
 	gameEngine.init(ctx);
 
@@ -33,7 +31,6 @@ ASSET_MANAGER.downloadAll(function () {
 		canvas.requestPointerLock();
 		click[0] = x;
 		click[1] = y;
-		ballhitSound.play();
 		if(canvas.webkitRequestFullScreen) {
 	       canvas.webkitRequestFullScreen();
         }else {

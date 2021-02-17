@@ -23,6 +23,7 @@ class Gun {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/uwu.png");
         // this.animation = new Animator(this.spreadsheet, 0, 0, 500, 491, 3, .3, 0, false, true);
         this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 1, .05, 1, false, true);
+        // this.wingman = new Audio("./audio/wingmanSound.wav");
         this.a = 0;
     };
 
@@ -31,6 +32,9 @@ class Gun {
     };
 
     update() {
+        // if (this.game.clickFlag == true) {
+        //     // this.wingman.play();
+        // }
         // if (this.game.clickFlag == true) {
         //     this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 4, .05, 1, false, false);
         //     // this.a += 1;
@@ -68,13 +72,12 @@ class AimBall {
         this.currentReticleX = (VISIBLE_X/2);
         this.currentReticleY = (VISIBLE_Y/2);
 		this.game = game;
-        // this.label = label;
         this.ballhitSound = new Audio("./audio/ripped From Aimlab LOL.wav");
+        this.ballhitSound.volume = .15;
     }
 
     draw(ctx) {
         this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1); // use this.x and this.y
-        // console.log(this.x + " " + this.y);
     }
 
     update() {
@@ -91,16 +94,13 @@ class AimBall {
         // horizontal and vertical of ball on big picture (pixels) 
         // SHOULD BE CHANGED IF PHOTO IS CHANGED
 
-        // add here a way to detect if in a cirlce, not a box?
-        // take area, start subtracting from each corner? lol
-        if (reticleX >= startX && reticleX <= endX
-            && reticleY >= startY && reticleY <= endY && clickFlag == true) {
-                this.ballhitSound.play();
-                this.removeFromWorld = true;
-                // console.log("hit");
-                // this.game.setClickFlag(false); 
-                // caused a problem with layers (fixed, moved clickflag to update() in gameengine)
-                //this.game.ballhitSound.play();
+        if (clickFlag == true) {
+            this.ballhitSound.play();
+            if (reticleX >= startX && reticleX <= endX
+                && reticleY >= startY && reticleY <= endY) {
+                    this.ballhitSound.play();
+                    this.removeFromWorld = true;
+            }
         }
     }
 
