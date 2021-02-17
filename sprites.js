@@ -1,11 +1,11 @@
-const VISIBLE_X = 1280, VISIBLE_Y = 720;
+const VISIBLE_X = 1920, VISIBLE_Y = 1080, BACKGROUND_X = 1920, BACKGROUND_Y = 1080;
 
 
 class Background {
     constructor(game) {
         Object.assign(this, { game });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/stockAimlabWallpaper.png");
-        this.animation = new Animator(this.spritesheet, 0, 0, 1280, 720, 1, .30, 0, false, true);
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/finalWallpaper.png");
+        this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
     };
 
     draw(ctx) {
@@ -15,7 +15,7 @@ class Background {
 
     update() {
         this.animation = new Animator(this.spritesheet, this.game.cameraX, this.game.cameraY, 
-            this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
+            this.game.cameraX + BACKGROUND_X, this.game.cameraY + BACKGROUND_Y, 1, .30, 0, false, true);
     }
 }
 
@@ -41,7 +41,7 @@ class AimBall {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/theAimball.png");
         this.x = x;
         this.y = y;
-        this.animation = new Animator(this.spritesheet, 0, 0, 1920, 1080, 1, .30, 0, false, true);
+        this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
         this.currentReticleX = (VISIBLE_X/2);
         this.currentReticleY = (VISIBLE_Y/2);
 		this.game = game;
@@ -60,9 +60,10 @@ class AimBall {
 		// adds current camera x,y + the current x,y reticle's center (the camera's exact center)
 	}
 
-    // 61x61 pixes originally
     onCircle(reticleX, reticleY, clickFlag) {
-        let startX = this.x + 720, startY = this.y + 399, endX = this.x + 781, endY = this.y + 460; 
+        // OLD let startX = this.x + 720, startY = this.y + 399, endX = this.x + 781, endY = this.y + 460; 
+        let startX = this.x + 2286, startY = this.y + 721, endX = this.x + 2376, endY = this.y + 810; 
+
         // horizontal and vertical of ball on big picture (pixels) 
         // SHOULD BE CHANGED IF PHOTO IS CHANGED
 
@@ -92,6 +93,8 @@ class GridShot{
 		this.aimball[0] = new Reticle(gameEngine);
 		
 		this.aimball[1] = new AimBall(gameEngine, 500, 250);
+        // this.aimball[1]= new AimBall(gameEngine, 850, 450); //MAX
+        // this.aimball[1]= new AimBall(gameEngine, -380, -180); //MIN
         this.aimball[2]= new AimBall(gameEngine, 300, 200);
         this.aimball[3]= new AimBall(gameEngine, 100, 150);
         
@@ -99,39 +102,72 @@ class GridShot{
 		this.game.addEntity(this.aimball[2]);
 		this.game.addEntity(this.aimball[1]);
 		this.game.addEntity(this.aimball[0]);
+	}
 
-	}
-	draw(ctx){
+	draw(ctx){}
 	
-	}
-	update(){
+    update(){
 		if(this.aimball[1].removeFromWorld == true){
 			var x = this.aimball[1].x;
 			var y = this.aimball[1].y;
-			this.aimball[1] = new AimBall(gameEngine, randomInt(x+100,x-100), randomInt(y+100,y-100));
-			this.game.addEntity(this.aimball[1]);
 
+			this.aimball[1] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
+
+			this.game.addEntity(this.aimball[1]);
 			this.game.addEntity(this.aimball[0]);
 		};
 		if(this.aimball[2].removeFromWorld == true){
 			var x = this.aimball[2].x;
 			var y = this.aimball[2].y;
-			this.aimball[2] = new AimBall(gameEngine, randomInt(x+100,x-100), randomInt(y+100,y-100));
-			this.game.addEntity(this.aimball[2]);
 
+			this.aimball[2] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
+
+			this.game.addEntity(this.aimball[2]);
 			this.game.addEntity(this.aimball[0]);
 		};
 		if(this.aimball[3].removeFromWorld == true){
 			var x = this.aimball[3].x;
 			var y = this.aimball[3].y;
-			this.aimball[3] = new AimBall(gameEngine, randomInt(x+100,x-100), randomInt(y+100,y-100));
-			this.game.addEntity(this.aimball[3]);
 
+            this.aimball[3] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
+			
+            this.game.addEntity(this.aimball[3]);
 			this.game.addEntity(this.aimball[0]);
 		};
 	}
 
-	randomInt(max, min) {
-		return Math.floor(Math.random() * max) + min + 1;
-	};
-}
+    rerollX(arrayPlace) {
+        // let difference = 850-(-380);
+        // return Math.floor(Math.random() * difference) -380 + 1;
+
+        let difference = 850-(-380);
+        var a = 0, b = 0, yeah = Math.floor(Math.random() * difference) -380 + 1;
+
+        if (arrayPlace == 1) a = 3, b = 2;
+        if (arrayPlace == 2) a = 3, b = 1;
+        if (arrayPlace == 3) a = 2, b = 1;
+
+        while ((yeah >= this.aimball[a].x && yeah <= this.aimball[a].x+100)
+                || (yeah >= this.aimball[b].x && yeah <= this.aimball[b].x+100)) {
+                    yeah = Math.floor(Math.random() * difference) -380 + 1;
+                }
+
+        return yeah;
+    };
+
+    rerollY(arrayPlace) {
+        let difference = 450-(-180);
+        var a = 0, b = 0, yeah = Math.floor(Math.random() * difference) -180 + 1;
+
+        if (arrayPlace == 1) a = 3, b = 2;
+        if (arrayPlace == 2) a = 3, b = 1;
+        if (arrayPlace == 3) a = 2, b = 1;
+
+        while ((yeah >= this.aimball[a].y && yeah <= this.aimball[a].y+100)
+                || (yeah >= this.aimball[b].y && yeah <= this.aimball[b].y+100)) {
+                    yeah = Math.floor(Math.random() * difference) -180 + 1;
+                }
+
+        return yeah;
+    };
+ }
