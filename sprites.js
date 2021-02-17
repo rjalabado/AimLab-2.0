@@ -1,5 +1,4 @@
-const VISIBLE_X = 1920, VISIBLE_Y = 1080, BACKGROUND_X = 1920, BACKGROUND_Y = 1080;
-
+const VISIBLE_X = 1920, VISIBLE_Y = 1080;
 
 class Background {
     constructor(game) {
@@ -10,13 +9,37 @@ class Background {
 
     draw(ctx) {
         this.animation.drawFrame(this.game.clockTick, ctx, 0, 0, 1);
-        
     }
 
     update() {
         this.animation = new Animator(this.spritesheet, this.game.cameraX, this.game.cameraY, 
-            this.game.cameraX + BACKGROUND_X, this.game.cameraY + BACKGROUND_Y, 1, .30, 0, false, true);
+            this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
     }
+}
+
+class Gun {
+    constructor(game) {
+        Object.assign(this, { game });
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/uwu.png");
+        // this.animation = new Animator(this.spreadsheet, 0, 0, 500, 491, 3, .3, 0, false, true);
+        this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 1, .05, 1, false, true);
+    };
+
+    draw(ctx) {
+        this.animation.drawFrame(this.game.clockTick, ctx, 1210, 430, 1);
+    };
+
+    update() {
+        // if (this.game.clickFlag == true) {
+        //     this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 1, .05, 1, false, false);
+        //     // this.animation = new Animator(this.spritesheet, 612, 0, 612, 754, 1, .05, 1, false, false);
+        //     // this.animation = new Animator(this.spritesheet, 1224, 0, 612, 754, 1, .05, 1, false, false);
+        //     // this.animation = new Animator(this.spritesheet, 1836, 0, 612, 754, 1, .05, 1, false, false);
+        //     // this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 1, .05, 1, false, false);
+        // } 
+        
+
+    };
 }
 
 class Reticle {
@@ -46,6 +69,7 @@ class AimBall {
         this.currentReticleY = (VISIBLE_Y/2);
 		this.game = game;
         // this.label = label;
+        this.ballhitSound = new Audio("./audio/ripped From Aimlab LOL.wav");
     }
 
     draw(ctx) {
@@ -71,10 +95,12 @@ class AimBall {
         // take area, start subtracting from each corner? lol
         if (reticleX >= startX && reticleX <= endX
             && reticleY >= startY && reticleY <= endY && clickFlag == true) {
+                this.ballhitSound.play();
                 this.removeFromWorld = true;
                 console.log("hit");
                 // this.game.setClickFlag(false); 
                 // caused a problem with layers (fixed, moved clickflag to update() in gameengine)
+                //this.game.ballhitSound.play();
         }
     }
 
@@ -137,9 +163,6 @@ class GridShot{
 	}
 
     rerollX(arrayPlace) {
-        // let difference = 850-(-380);
-        // return Math.floor(Math.random() * difference) -380 + 1;
-
         let difference = 850-(-380);
         var a = 0, b = 0, yeah = Math.floor(Math.random() * difference) -380 + 1;
 

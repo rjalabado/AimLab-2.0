@@ -3,7 +3,6 @@ class SceneManager {
     constructor(game) {
         this.game = game;
         this.drawStuff();
-
     };
 
     drawStuff() {
@@ -16,5 +15,7 @@ class SceneManager {
         var reticle = new Reticle(gameEngine);
         this.game.addEntity(reticle);
 
+        var gun = new Gun(gameEngine);
+        this.game.addEntity(gun);
     };
 }

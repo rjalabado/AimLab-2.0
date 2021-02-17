@@ -9,6 +9,7 @@ ASSET_MANAGER.queueDownload("./sprites/reticle.png");
 ASSET_MANAGER.queueDownload("./sprites/theAimball.png");
 ASSET_MANAGER.queueDownload("./sprites/aimball.png");
 ASSET_MANAGER.queueDownload("./sprites/finalWallpaper.png");
+ASSET_MANAGER.queueDownload("./sprites/uwu.png");
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
