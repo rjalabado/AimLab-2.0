@@ -14,6 +14,8 @@ ASSET_MANAGER.queueDownload("./sprites/uwu.png");
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
+	var ballhitSound = new Audio("./audio/wingmanSound.wav");
+
 	gameEngine.init(ctx);
 
 	var SCENE_MANAGER = new SceneManager(gameEngine);
@@ -31,7 +33,15 @@ ASSET_MANAGER.downloadAll(function () {
 		canvas.requestPointerLock();
 		click[0] = x;
 		click[1] = y;
+		ballhitSound.play();
+		
+        if(canvas.webkitRequestFullScreen) {
+	       canvas.webkitRequestFullScreen();
+        }else {
+			canvas.mozRequestFullScreen();
+        }
 	};
+		
 
 	document.addEventListener('pointerlockchange', lockChangeAlert, false);
     document.addEventListener('mozpointerlockchange', lockChangeAlert, false);

@@ -110,8 +110,8 @@ class AimBall {
 }
 
 //gamemode classes...
-
-class GridShot{
+//og gridshot
+class GridShot1{
 	constructor(game){
 		this.game = game;
 		this.aimball = [];
@@ -159,12 +159,77 @@ class GridShot{
 			
             this.game.addEntity(this.aimball[3]);
 		};
-        if(this.gun.removeFromWorld == true) {
-            this.gun = new Gun(gameEngine);
-            this.game.addEntity(this.gun);
-        } 
+        this.game.addEntity(this.gun); 
+		this.game.addEntity(this.aimball[0]);
+	}
 
-        this.game.addEntity(this.aimball[0]);
+    rerollX(arrayPlace) {
+        let difference = 850-(-380);
+        var a = 0, b = 0, yeah = Math.floor(Math.random() * difference) -380 + 1;
+
+        if (arrayPlace == 1) a = 3, b = 2;
+        if (arrayPlace == 2) a = 3, b = 1;
+        if (arrayPlace == 3) a = 2, b = 1;
+
+        while ((yeah >= this.aimball[a].x && yeah <= this.aimball[a].x+100)
+                || (yeah >= this.aimball[b].x && yeah <= this.aimball[b].x+100)) {
+                    yeah = Math.floor(Math.random() * difference) -380 + 1;
+                }
+
+        return yeah;
+    };
+
+    rerollY(arrayPlace) {
+        let difference = 450-(-180);
+        var a = 0, b = 0, yeah = Math.floor(Math.random() * difference) -180 + 1;
+
+        if (arrayPlace == 1) a = 3, b = 2;
+        if (arrayPlace == 2) a = 3, b = 1;
+        if (arrayPlace == 3) a = 2, b = 1;
+
+        while ((yeah >= this.aimball[a].y && yeah <= this.aimball[a].y+100)
+                || (yeah >= this.aimball[b].y && yeah <= this.aimball[b].y+100)) {
+                    yeah = Math.floor(Math.random() * difference) -180 + 1;
+                }
+
+        return yeah;
+    };
+ }
+ //broken tracking mode
+class GridShot{
+	constructor(game){
+		this.game = game;
+		this.aimball = [];
+
+		this.aimball[0] = new Reticle(gameEngine);
+		this.aimball[1] = new AimBall(gameEngine, 300, 200);
+        this.gun = new Gun(gameEngine);
+		this.game.addEntity(this.aimball[1]);
+		this.game.addEntity(this.aimball[0]);
+        this.game.addEntity(this.gun);
+	}
+
+	draw(ctx){}
+	
+    update(){
+		var x = this.aimball[1].x;
+		var y = this.aimball[1].y;
+		
+		
+
+		if(this.aimball[1].removeFromWorld == true){
+			this.aimball[1] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
+		}
+		else{
+			if(x <= 850){
+				this.aimball[1].removeFromWorld = true;
+				this.aimball[1] = new AimBall(gameEngine, (x + 5), (y));
+			};
+			console.log("+");
+		};
+		this.game.addEntity(this.aimball[1]);
+        this.game.addEntity(this.gun); 
+		this.game.addEntity(this.aimball[0]);
 	}
 
     rerollX(arrayPlace) {
