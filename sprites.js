@@ -141,7 +141,10 @@ class GridShot{
 
 			this.aimball[1] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
 
+            this.game.setEntityNull(this.game.entities.indexOf(this.aimball[1]));
 			this.game.addEntity(this.aimball[1]);
+            this.game.addEntity(this.aimball[0]);
+            this.game.addEntity(this.gun); 
 		};
 		if(this.aimball[2].removeFromWorld == true){
 			var x = this.aimball[2].x;
@@ -149,7 +152,10 @@ class GridShot{
 
 			this.aimball[2] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
 
+            this.game.setEntityNull(this.game.entities.indexOf(this.aimball[2]));
 			this.game.addEntity(this.aimball[2]);
+            this.game.addEntity(this.aimball[0]);
+            this.game.addEntity(this.gun); 
 		};
 		if(this.aimball[3].removeFromWorld == true){
 			var x = this.aimball[3].x;
@@ -157,10 +163,11 @@ class GridShot{
 
             this.aimball[3] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
 			
+            this.game.setEntityNull(this.game.entities.indexOf(this.aimball[3]));
             this.game.addEntity(this.aimball[3]);
+            this.game.addEntity(this.aimball[0]);
+            this.game.addEntity(this.gun); 
 		};
-        this.game.addEntity(this.gun); 
-		this.game.addEntity(this.aimball[0]);
 	}
 
     rerollX(arrayPlace) {

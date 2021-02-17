@@ -86,6 +86,10 @@ class GameEngine {
         this.entities.push(entity);
     };
 
+    setEntityNull(element) {
+        this.entities[element] = null;
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         for (var i = 0; i < this.entities.length; i++) {
@@ -117,7 +121,5 @@ class GameEngine {
         this.clockTick = this.timer.tick();
 		this.update();
 		this.draw();
-
-		
     };
 };
