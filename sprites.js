@@ -111,7 +111,7 @@ class AimBall {
 
 //gamemode classes...
 //og gridshot
-class GridShot1{
+class GridShot{
 	constructor(game){
 		this.game = game;
 		this.aimball = [];
@@ -196,7 +196,7 @@ class GridShot1{
     };
  }
  //broken tracking mode
-class GridShot{
+class GridShot1{
 	constructor(game){
 		this.game = game;
 		this.aimball = [];
