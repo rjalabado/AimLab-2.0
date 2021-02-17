@@ -23,12 +23,11 @@ class Gun {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/uwu.png");
         // this.animation = new Animator(this.spreadsheet, 0, 0, 500, 491, 3, .3, 0, false, true);
         this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 1, .05, 1, false, true);
-        // this.wingman = new Audio("./audio/wingmanSound.wav");
         this.a = 0;
     };
 
     draw(ctx) {
-        this.animation.drawFrame(this.game.clockTick, ctx, 1210, 430, 1);
+        this.animation.drawFrame(this.game.clockTick, ctx, 1021, 430, 1);
     };
 
     update() {
