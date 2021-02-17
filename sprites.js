@@ -23,6 +23,7 @@ class Gun {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/uwu.png");
         // this.animation = new Animator(this.spreadsheet, 0, 0, 500, 491, 3, .3, 0, false, true);
         this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 1, .05, 1, false, true);
+        this.a = 0;
     };
 
     draw(ctx) {
@@ -30,15 +31,14 @@ class Gun {
     };
 
     update() {
-        // if (this.game.clickFlag == true) {
-        //     this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 1, .05, 1, false, false);
-        //     // this.animation = new Animator(this.spritesheet, 612, 0, 612, 754, 1, .05, 1, false, false);
-        //     // this.animation = new Animator(this.spritesheet, 1224, 0, 612, 754, 1, .05, 1, false, false);
-        //     // this.animation = new Animator(this.spritesheet, 1836, 0, 612, 754, 1, .05, 1, false, false);
-        //     // this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 1, .05, 1, false, false);
-        // } 
-        
-
+        if (this.game.clickFlag == true) {
+            this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 4, .05, 1, false, false);
+            this.a += 1;
+        }
+        if (this.a > 0) this.a += 1;
+        if (this.a == 20) {
+            this.removeFromWorld = true;
+        }
     };
 }
 
@@ -97,7 +97,7 @@ class AimBall {
             && reticleY >= startY && reticleY <= endY && clickFlag == true) {
                 this.ballhitSound.play();
                 this.removeFromWorld = true;
-                console.log("hit");
+                // console.log("hit");
                 // this.game.setClickFlag(false); 
                 // caused a problem with layers (fixed, moved clickflag to update() in gameengine)
                 //this.game.ballhitSound.play();
@@ -123,11 +123,13 @@ class GridShot{
         // this.aimball[1]= new AimBall(gameEngine, -380, -180); //MIN
         this.aimball[2]= new AimBall(gameEngine, 300, 200);
         this.aimball[3]= new AimBall(gameEngine, 100, 150);
+        this.gun = new Gun(gameEngine);
         
 		this.game.addEntity(this.aimball[3]);
 		this.game.addEntity(this.aimball[2]);
 		this.game.addEntity(this.aimball[1]);
 		this.game.addEntity(this.aimball[0]);
+        this.game.addEntity(this.gun);
 	}
 
 	draw(ctx){}
@@ -140,7 +142,6 @@ class GridShot{
 			this.aimball[1] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
 
 			this.game.addEntity(this.aimball[1]);
-			this.game.addEntity(this.aimball[0]);
 		};
 		if(this.aimball[2].removeFromWorld == true){
 			var x = this.aimball[2].x;
@@ -149,7 +150,6 @@ class GridShot{
 			this.aimball[2] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
 
 			this.game.addEntity(this.aimball[2]);
-			this.game.addEntity(this.aimball[0]);
 		};
 		if(this.aimball[3].removeFromWorld == true){
 			var x = this.aimball[3].x;
@@ -158,8 +158,13 @@ class GridShot{
             this.aimball[3] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
 			
             this.game.addEntity(this.aimball[3]);
-			this.game.addEntity(this.aimball[0]);
 		};
+        if(this.gun.removeFromWorld == true) {
+            this.gun = new Gun(gameEngine);
+            this.game.addEntity(this.gun);
+        } 
+
+        this.game.addEntity(this.aimball[0]);
 	}
 
     rerollX(arrayPlace) {

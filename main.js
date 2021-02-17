@@ -39,10 +39,10 @@ ASSET_MANAGER.downloadAll(function () {
 	function lockChangeAlert() {
 		if (document.pointerLockElement === canvas ||
 			document.mozPointerLockElement === canvas) {
-			console.log('The pointer lock status is now locked');
+			// console.log('The pointer lock status is now locked');
 			document.addEventListener("mousemove", updatePosition, false);
 		} else {
-			console.log('The pointer lock status is now unlocked');
+			// console.log('The pointer lock status is now unlocked');
 			gameEngine.setCamera(1565,350);
 			document.removeEventListener("mousemove", updatePosition, false);
 		}

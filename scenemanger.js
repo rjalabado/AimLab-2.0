@@ -15,7 +15,7 @@ class SceneManager {
         var reticle = new Reticle(gameEngine);
         this.game.addEntity(reticle);
 
-        var gun = new Gun(gameEngine);
-        this.game.addEntity(gun);
+        // var gun = new Gun(gameEngine);
+        // this.game.addEntity(gun);
     };
 }
