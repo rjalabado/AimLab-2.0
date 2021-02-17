@@ -31,14 +31,14 @@ class Gun {
     };
 
     update() {
-        if (this.game.clickFlag == true) {
-            this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 4, .05, 1, false, false);
-            this.a += 1;
-        }
-        if (this.a > 0) this.a += 1;
-        if (this.a == 20) {
-            this.removeFromWorld = true;
-        }
+        // if (this.game.clickFlag == true) {
+        //     this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 4, .05, 1, false, false);
+        //     // this.a += 1;
+        // }
+        // // if (this.a > 0) this.a += 1;
+        // // if (this.a == 20) {
+        // //     this.removeFromWorld = true;
+        // // }
     };
 }
 
