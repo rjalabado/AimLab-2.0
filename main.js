@@ -7,6 +7,7 @@ var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./sprites/reticle.png");
 ASSET_MANAGER.queueDownload("./sprites/theAimball.png");
+ASSET_MANAGER.queueDownload("./sprites/theAimballShrink.png");
 ASSET_MANAGER.queueDownload("./sprites/finalWallpaper.png");
 ASSET_MANAGER.queueDownload("./sprites/uwu.png");
 
@@ -31,11 +32,11 @@ ASSET_MANAGER.downloadAll(function () {
 		canvas.requestPointerLock();
 		click[0] = x;
 		click[1] = y;
-		if(canvas.webkitRequestFullScreen) {
-	       canvas.webkitRequestFullScreen();
-        }else {
-			canvas.mozRequestFullScreen();
-        }
+		// if(canvas.webkitRequestFullScreen) {
+	    //    canvas.webkitRequestFullScreen();
+        // }else {
+		// 	canvas.mozRequestFullScreen();
+        // }
 	};
 		
 

@@ -115,7 +115,6 @@ class GameEngine {
         }
 
         this.setClickFlag(false);
-        // console.log(this.entities.length);
     };
 
     loop() {

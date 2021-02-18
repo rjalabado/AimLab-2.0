@@ -17,6 +17,7 @@ class Background {
     }
 }
 
+// have a seperate gun class for static image and one for animating
 class Gun {
     constructor(game) {
         Object.assign(this, { game });
@@ -73,6 +74,7 @@ class AimBall {
 		this.game = game;
         this.ballhitSound = new Audio("./audio/ripped From Aimlab LOL.wav");
         this.ballhitSound.volume = .15;
+        // this.ballSize = 1;
     }
 
     draw(ctx) {
@@ -102,6 +104,15 @@ class AimBall {
             }
         }
     }
+
+    moveBall(x,y) {
+        this.x += x;
+        this.y += y;
+    }
+
+    // changeSize(ballSize) {
+    //     this.ballSize -= ballSize;
+    // }
 
 	turnOn(){
 		this.removeFromWorld = false;
@@ -201,6 +212,7 @@ class GridShot{
         return yeah;
     };
  }
+
  //broken tracking mode
 class GridShot1{
 	constructor(game){
