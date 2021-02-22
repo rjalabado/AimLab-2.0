@@ -288,4 +288,4 @@ class GridShot1{
 
         return yeah;
     };
- }
+ } 
