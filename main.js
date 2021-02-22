@@ -27,18 +27,26 @@ ASSET_MANAGER.downloadAll(function () {
 		document.exitPointerLock || document.mozExitPointerLock;
 		
 	
-	this.click = []
+	this.click = [];
 	canvas.onclick = function(){
 		canvas.requestPointerLock();
 		click[0] = x;
 		click[1] = y;
-		// if(canvas.webkitRequestFullScreen) {
-	    //    canvas.webkitRequestFullScreen();
-        // }else {
-		// 	canvas.mozRequestFullScreen();
-        // }
+		 //if(canvas.webkitRequestFullScreen) {
+	     //   canvas.webkitRequestFullScreen();
+         //}else {
+		 //	canvas.mozRequestFullScreen();
+         //}
+		 //60000 = 1 minute
+		 //HIT ON ONE BALL MISS ON TWO???
+		 myVar = setTimeout(print, 10000);
 	};
-		
+	
+	function print() {
+		this.gameEngine.finalizePoints();
+		this.gameEngine.printPoints()
+		//clearTimeout(myVar);
+	};
 
 	document.addEventListener('pointerlockchange', lockChangeAlert, false);
     document.addEventListener('mozpointerlockchange', lockChangeAlert, false);

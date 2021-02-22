@@ -15,7 +15,30 @@ class GameEngine {
         this.surfaceHeight = null;
         this.cameraX = null;
         this.cameraY = null;
+		this.points = 0;
+		this.hits = 0;
+		this.misses = 0;
     };
+	addPoint(){
+		this.points += 297.32;
+		this.hits += 1;
+		//console.log(this.points);
+	};
+	losePoint(){
+		this.points -= 23.66;
+		this.misses += .03;
+		//console.log(this.points)
+	};
+	finalizePoints(){
+		this.points = Math.floor(this.points);
+		this.hits = Math.floor(this.hits);
+		this.misses = Math.floor(this.misses);
+	};
+	printPoints(){
+		console.log(this.points);
+		console.log(this.hits);
+		console.log(this.misses);
+	};
 
     init(ctx) {
         this.ctx = ctx;

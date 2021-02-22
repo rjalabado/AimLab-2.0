@@ -101,7 +101,13 @@ class AimBall {
                 && reticleY >= startY && reticleY <= endY) {
                     this.ballhitSound.play();
                     this.removeFromWorld = true;
+					this.game.addPoint();
+					//console.log("hit");
             }
+			else{
+				this.game.losePoint();
+				//console.log("miss");
+			}
         }
     }
 
@@ -121,6 +127,7 @@ class AimBall {
 
 //gamemode classes...
 //og gridshot
+//implement hit miss counter
 class GridShot{
 	constructor(game){
 		this.game = game;
