@@ -46,19 +46,48 @@ class Gun {
     };
 }
 
-class Reticle {
+class HUD {
     constructor(game) {
         Object.assign(this, { game });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/reticle.png");
         this.animation = new Animator(this.spritesheet, 0, 0, 128, 128, 1, .30, 0, false, true);
+		this.endCard = ASSET_MANAGER.getAsset("./sprites/endCard.png")
+		this.animationEnd = new Animator(this.endCard, 0, 0, 128, 128, 1, .30, 0, false, true);
+		this.title = true;
+		this.end = false;
+		this.timerO = 6
     }
 
     draw(ctx) {
-        this.animation.drawFrame(this.game.clockTick, ctx, (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5), .5);
+		ctx.fillStyle = "White";
+		ctx.font = '50px serif';
+        ctx.fillText(this.game.printScore(), 50, 50);
+		ctx.fillText(this.game.printTimer(), 50, 100);
+		if(this.title){
+			ctx.fillText("CLICK TO BEGIN", (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5));
+		}
+		if(!this.title){
+		//	ctx.fillText(Math.floor(this.timerO), (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5));
+		//}
+			this.animation.drawFrame(this.game.clockTick, ctx, (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5), .5);
+		};
+		if(this.end){
+			
+			ctx.fillText("GAME OVER!", (VISIBLE_X/2)-156, (VISIBLE_Y/2)+16);
+		};
         // 64 is x and y of reticle
     }
 
     update() {
+		if(this.title && this.game.clickFlag){
+			this.title = false;
+		} //else {
+		//	this.timerO -= (1/60)
+		//}
+		if(this.game.timerO < 1){
+			this.end = true;
+		}
+
     }
 }
 
@@ -74,6 +103,7 @@ class AimBall {
 		this.game = game;
         this.ballhitSound = new Audio("./audio/ripped From Aimlab LOL.wav");
         this.ballhitSound.volume = .15;
+		this.bool = true;
         // this.ballSize = 1;
     }
 
@@ -95,7 +125,7 @@ class AimBall {
         // horizontal and vertical of ball on big picture (pixels) 
         // SHOULD BE CHANGED IF PHOTO IS CHANGED
 
-        if (clickFlag == true) {
+        if (clickFlag == true && this.bool) {
             this.ballhitSound.play();
             if (reticleX >= startX && reticleX <= endX
                 && reticleY >= startY && reticleY <= endY) {
@@ -133,7 +163,7 @@ class GridShot{
 		this.game = game;
 		this.aimball = [];
 
-		this.aimball[0] = new Reticle(gameEngine);
+		this.aimball[0] = new HUD(gameEngine);
 		
 		this.aimball[1] = new AimBall(gameEngine, 500, 250);
         // this.aimball[1]= new AimBall(gameEngine, 850, 450); //MAX
@@ -185,6 +215,17 @@ class GridShot{
             this.game.addEntity(this.aimball[0]);
             this.game.addEntity(this.gun); 
 		};
+		if(this.game.g == true){
+			if(this.game.timerO > 1){
+				this.game.setTimer(-1/60);
+			};
+		};
+		if(this.aimball[0].end){
+			var i;
+			for(i = 1; i < this.aimball.length; i++){
+				this.aimball[i].bool = false;
+			}
+		}
 	}
 
     rerollX(arrayPlace) {
@@ -226,7 +267,7 @@ class GridShot1{
 		this.game = game;
 		this.aimball = [];
 
-		this.aimball[0] = new Reticle(gameEngine);
+		this.aimball[0] = new HUD(gameEngine);
 		this.aimball[1] = new AimBall(gameEngine, 300, 200);
         this.gun = new Gun(gameEngine);
 		this.game.addEntity(this.aimball[1]);

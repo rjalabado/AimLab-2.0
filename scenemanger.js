@@ -12,8 +12,8 @@ class SceneManager {
 		var grid = new GridShot(gameEngine);
 		this.game.addEntity(grid);
         
-        var reticle = new Reticle(gameEngine);
-        this.game.addEntity(reticle);
+        var hud = new HUD(gameEngine);
+        this.game.addEntity(hud);
 
         // var gun = new Gun(gameEngine);
         // this.game.addEntity(gun);

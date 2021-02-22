@@ -15,9 +15,11 @@ class GameEngine {
         this.surfaceHeight = null;
         this.cameraX = null;
         this.cameraY = null;
-		this.points = 0;
+		this.timerO = 60;
+		this.points = 70;
 		this.hits = 0;
 		this.misses = 0;
+		this.g = false
     };
 	addPoint(){
 		this.points += 297.32;
@@ -34,10 +36,16 @@ class GameEngine {
 		this.hits = Math.floor(this.hits);
 		this.misses = Math.floor(this.misses);
 	};
-	printPoints(){
-		console.log(this.points);
-		console.log(this.hits);
-		console.log(this.misses);
+	printScore(){
+		return ("Score: " + Math.ceil(this.points));
+	};
+
+	printTimer(){
+		return ("Timer: " + Math.floor(this.timerO));
+	};
+
+	go(bool){
+		this.g = bool;
 	};
 
     init(ctx) {
@@ -56,6 +64,10 @@ class GameEngine {
     setClickFlag(clickFlag) {
         this.clickFlag = clickFlag;
     }
+
+	setTimer(timer) {
+		this.timerO += timer;
+	}
 
     start() {
         var that = this;

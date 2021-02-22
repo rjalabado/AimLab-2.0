@@ -10,6 +10,7 @@ ASSET_MANAGER.queueDownload("./sprites/theAimball.png");
 ASSET_MANAGER.queueDownload("./sprites/theAimballShrink.png");
 ASSET_MANAGER.queueDownload("./sprites/finalWallpaper.png");
 ASSET_MANAGER.queueDownload("./sprites/uwu.png");
+ASSET_MANAGER.queueDownload("./sprites/endCard.png");
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
@@ -32,20 +33,14 @@ ASSET_MANAGER.downloadAll(function () {
 		canvas.requestPointerLock();
 		click[0] = x;
 		click[1] = y;
-		 //if(canvas.webkitRequestFullScreen) {
-	     //   canvas.webkitRequestFullScreen();
-         //}else {
-		 //	canvas.mozRequestFullScreen();
-         //}
+		 if(canvas.webkitRequestFullScreen) {
+	        canvas.webkitRequestFullScreen();
+         }else {
+		 	canvas.mozRequestFullScreen();
+         }
 		 //60000 = 1 minute
 		 //HIT ON ONE BALL MISS ON TWO???
-		 myVar = setTimeout(print, 10000);
-	};
-	
-	function print() {
-		this.gameEngine.finalizePoints();
-		this.gameEngine.printPoints()
-		//clearTimeout(myVar);
+		gameEngine.go(true);
 	};
 
 	document.addEventListener('pointerlockchange', lockChangeAlert, false);
