@@ -50,11 +50,9 @@ class HUD {
     constructor(game) {
         Object.assign(this, { game });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/reticle.png");
-        this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
+        this.animation = new Animator(this.spritesheet, 0, 0, 128, 128, 1, .30, 0, false, true);
 		this.endCard = ASSET_MANAGER.getAsset("./sprites/endCard.png")
-		this.animationTitle = new Animator(this.endCard, 0, 0, 5000, 2128, 1, .30, 0, false, true);
-		this.start = ASSET_MANAGER.getAsset("./sprites/start.png")
-		this.animationStart = new Animator(this.start, 0, 0, 5000, 2128, 1, .30, 0, false, true);
+		this.animationEnd = new Animator(this.endCard, 0, 0, 128, 128, 1, .30, 0, false, true);
 		this.title = true;
 		this.end = false;
 		this.timerO = 6
@@ -66,11 +64,11 @@ class HUD {
         ctx.fillText(this.game.printScore(), 50, 50);
 		ctx.fillText(this.game.printTimer(), 50, 100);
 		if(this.title){
-			//ctx.fillText("CLICK TO BEGIN", (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5));
-			 this.animationTitle.drawFrame(this.game.clockTick, ctx, 0, 0, 1);
-			 this.animationStart.drawFrame(this.game.clockTick, ctx, (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5), 1);
+			ctx.fillText("CLICK TO BEGIN", (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5));
 		}
 		if(!this.title){
+		//	ctx.fillText(Math.floor(this.timerO), (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5));
+		//}
 			this.animation.drawFrame(this.game.clockTick, ctx, (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5), .5);
 		};
 		if(this.end){
@@ -91,27 +89,6 @@ class HUD {
 		}
 
     }
-
-	onSelect(reticleX, reticleY, clickFlag) {
-        // OLD let startX = this.x + 720, startY = this.y + 399, endX = this.x + 781, endY = this.y + 460; 
-        let startX = (VISIBLE_X/2)-(64*.5) + 15.5, startY = (VISIBLE_Y/2)-(64*.5)+30.5, endX = (VISIBLE_Y/2)-(64*.5)-15.5, endY = (VISIBLE_Y/2)-(64*.5)-30.5; 
-
-        // horizontal and vertical of ball on big picture (pixels) 
-        // SHOULD BE CHANGED IF PHOTO IS CHANGED
-
-        if (clickFlag == true && this.bool) {
-            if (reticleX >= startX && reticleX <= endX
-                && reticleY >= startY && reticleY <= endY) {
-                    this.ballhitSound.play();
-                    this.removeFromWorld = true;
-					this.game.addPoint();
-					//console.log("hit");
-            }
-			else{
-				this.game.losePoint();
-				//console.log("miss");
-			}
-        }
 }
 
 class AimBall {

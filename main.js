@@ -11,7 +11,6 @@ ASSET_MANAGER.queueDownload("./sprites/theAimballShrink.png");
 ASSET_MANAGER.queueDownload("./sprites/finalWallpaper.png");
 ASSET_MANAGER.queueDownload("./sprites/uwu.png");
 ASSET_MANAGER.queueDownload("./sprites/endCard.png");
-ASSET_MANAGER.queueDownload("./sprites/start.png");
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
