@@ -112,6 +112,7 @@ class HUD {
 				//console.log("miss");
 			}
         }
+	}
 }
 
 class AimBall {
