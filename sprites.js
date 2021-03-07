@@ -3,7 +3,7 @@ const VISIBLE_X = 1920, VISIBLE_Y = 1080;
 class Background {
     constructor(game) {
         Object.assign(this, { game });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/finalWallpaper.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Another Wallpaper 1.png");
         this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
     };
 

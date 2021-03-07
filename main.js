@@ -7,8 +7,7 @@ var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./sprites/reticle.png");
 ASSET_MANAGER.queueDownload("./sprites/theAimball.png");
-ASSET_MANAGER.queueDownload("./sprites/theAimballShrink.png");
-ASSET_MANAGER.queueDownload("./sprites/finalWallpaper.png");
+ASSET_MANAGER.queueDownload("./sprites/Another Wallpaper 1.png");
 ASSET_MANAGER.queueDownload("./sprites/uwu.png");
 ASSET_MANAGER.queueDownload("./sprites/endCard.png");
 ASSET_MANAGER.queueDownload("./sprites/start.png");
