@@ -19,6 +19,7 @@ class GameEngine {
 		this.misses = 0;
 		this.g = false
 		this.timerO = Date.now();
+		this.retTime = 60;
     };
 	addPoint(){
 		this.points += 297.32;
@@ -40,7 +41,12 @@ class GameEngine {
 	};
 
 	printTimer(game){
-		return ("Time: " + Math.ceil(60-((Date.now()-this.timerO)/1000)));
+		if(this.retTime>0){
+			this.retTime = Math.ceil(60-((Date.now()-this.timerO)/1000));
+		} else {
+			this.retTime = 0
+		}
+		return ("Time: " + this.retTime);
 	};
 	
 

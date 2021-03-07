@@ -75,8 +75,10 @@ class HUD {
 		if(!this.title){
 			this.animation.drawFrame(this.game.clockTick, ctx, (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5), .5);
 		};
-		if(this.end){
-			
+		if(this.game.retTime == 0){
+			this.end = true;
+		};
+		if(this.end){			
 			ctx.fillText("GAME OVER!", (VISIBLE_X/2)-156, (VISIBLE_Y/2)+16);
 		};
         // 64 is x and y of reticle
