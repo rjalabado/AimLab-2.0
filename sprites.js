@@ -64,7 +64,9 @@ class HUD {
 		ctx.fillStyle = "White";
 		ctx.font = '50px serif';
         ctx.fillText(this.game.printScore(), 50, 50);
-		ctx.fillText(this.game.printTimer(), 50, 100);
+		//console.log(this.game.printTimer());
+		ctx.fillText(this.game.printTimer(this.game), 50, 100);
+		//console.log(Date.now());
 		if(this.title){
 			//ctx.fillText("CLICK TO BEGIN", (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5));
 			 this.animationTitle.drawFrame(this.game.clockTick, ctx, 0, 0, 1);
@@ -83,9 +85,7 @@ class HUD {
     update() {
 		if(this.title && this.game.clickFlag){
 			this.title = false;
-		} //else {
-		//	this.timerO -= (1/60)
-		//}
+		}
 		if(this.game.timerO < 1){
 			this.end = true;
 		}
@@ -239,11 +239,12 @@ class GridShot{
             this.game.addEntity(this.aimball[0]);
             this.game.addEntity(this.gun); 
 		};
-		if(this.game.g == true){
-			if(this.game.timerO > 1){
-				this.game.setTimer(-1/60);
-			};
-		};
+		//if(this.game.g == true){
+			//if(this.game.timerO > 1){
+				//this.game.setTimer(-1/60);
+			//};
+			//this.game.startTimer();
+		//};
 		if(this.aimball[0].end){
 			var i;
 			for(i = 1; i < this.aimball.length; i++){
@@ -315,7 +316,7 @@ class GridShot1{
 				this.aimball[1].removeFromWorld = true;
 				this.aimball[1] = new AimBall(gameEngine, (x + 5), (y));
 			};
-			console.log("+");
+			//console.log("+");
 		};
 		this.game.addEntity(this.aimball[1]);
         this.game.addEntity(this.gun); 

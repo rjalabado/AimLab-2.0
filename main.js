@@ -35,7 +35,7 @@ ASSET_MANAGER.downloadAll(function () {
 		click[0] = x;
 		click[1] = y;
 		 if(canvas.webkitRequestFullScreen) {
-	        canvas.webkitRequestFullScreen();
+	        //canvas.webkitRequestFullScreen();
          }else {
 		 	canvas.mozRequestFullScreen();
          }

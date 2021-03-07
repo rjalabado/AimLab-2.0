@@ -1,7 +1,6 @@
 // This game shell was happily modified from Googler Seth Ladd's "Bad Aliens" game and his Google IO talk in 2011
-
 class GameEngine {
-    constructor() {
+    constructor(now) {
         this.entities = [];
         this.showOutlines = false;
         this.ctx = null;
@@ -15,11 +14,11 @@ class GameEngine {
         this.surfaceHeight = null;
         this.cameraX = null;
         this.cameraY = null;
-		this.timerO = 60;
 		this.points = 70;
 		this.hits = 0;
 		this.misses = 0;
 		this.g = false
+		this.timerO = Date.now();
     };
 	addPoint(){
 		this.points += 297.32;
@@ -40,9 +39,10 @@ class GameEngine {
 		return ("Score: " + Math.ceil(this.points));
 	};
 
-	printTimer(){
-		return ("Timer: " + Math.floor(this.timerO));
+	printTimer(game){
+		return ("Time: " + Math.ceil(60-((Date.now()-this.timerO)/1000)));
 	};
+	
 
 	go(bool){
 		this.g = bool;
@@ -64,10 +64,6 @@ class GameEngine {
     setClickFlag(clickFlag) {
         this.clickFlag = clickFlag;
     }
-
-	setTimer(timer) {
-		this.timerO += timer;
-	}
 
     start() {
         var that = this;
