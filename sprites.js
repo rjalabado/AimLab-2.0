@@ -51,70 +51,30 @@ class HUD {
         Object.assign(this, { game });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/reticle.png");
         this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
-		this.endCard = ASSET_MANAGER.getAsset("./sprites/endCard.png")
-		this.animationTitle = new Animator(this.endCard, 0, 0, 5000, 2128, 1, .30, 0, false, true);
-		this.start = ASSET_MANAGER.getAsset("./sprites/start.png")
-		this.animationStart = new Animator(this.start, 0, 0, 5000, 2128, 1, .30, 0, false, true);
-		this.title = true;
 		this.end = false;
-		this.timerO = 6
+		this.f = false;
     }
 
     draw(ctx) {
 		ctx.fillStyle = "White";
 		ctx.font = '50px serif';
-        ctx.fillText(this.game.printScore(), 50, 50);
-		//console.log(this.game.printTimer());
-		ctx.fillText(this.game.printTimer(this.game), 50, 100);
-		//console.log(Date.now());
-		if(this.title){
-			//ctx.fillText("CLICK TO BEGIN", (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5));
-			 this.animationTitle.drawFrame(this.game.clockTick, ctx, 0, 0, 1);
-			 this.animationStart.drawFrame(this.game.clockTick, ctx, (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5), 1);
-		}
-		if(!this.title){
-			this.animation.drawFrame(this.game.clockTick, ctx, (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5), .5);
+		this.animation.drawFrame(this.game.clockTick, ctx, (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5), .5);
+		if(this.f){
+			ctx.fillText(this.game.printScore(), 50, 50);
+			ctx.fillText(this.game.printTimer(this.game), 50, 100);
 		};
 		if(this.game.retTime == 0){
 			this.end = true;
 		};
 		if(this.end){			
 			ctx.fillText("GAME OVER!", (VISIBLE_X/2)-156, (VISIBLE_Y/2)+16);
+			ctx.fillText(this.game.returnAccuracy(), (VISIBLE_X/2)-156, (VISIBLE_Y/2)+116);
+			ctx.fillText("REFRESH TO CHOOSE A NEW GAME MODE!", (VISIBLE_X/2)-475.69420, (VISIBLE_Y/2)+216);
 		};
         // 64 is x and y of reticle
     }
 
-    update() {
-		if(this.title && this.game.clickFlag){
-			this.title = false;
-		}
-		if(this.game.timerO < 1){
-			this.end = true;
-		}
-
-    }
-
-	onSelect(reticleX, reticleY, clickFlag) {
-        // OLD let startX = this.x + 720, startY = this.y + 399, endX = this.x + 781, endY = this.y + 460; 
-        let startX = (VISIBLE_X/2)-(64*.5) + 15.5, startY = (VISIBLE_Y/2)-(64*.5)+30.5, endX = (VISIBLE_Y/2)-(64*.5)-15.5, endY = (VISIBLE_Y/2)-(64*.5)-30.5; 
-
-        // horizontal and vertical of ball on big picture (pixels) 
-        // SHOULD BE CHANGED IF PHOTO IS CHANGED
-
-        if (clickFlag == true && this.bool) {
-            if (reticleX >= startX && reticleX <= endX
-                && reticleY >= startY && reticleY <= endY) {
-                    this.ballhitSound.play();
-                    this.removeFromWorld = true;
-					this.game.addPoint();
-					//console.log("hit");
-            }
-			else{
-				this.game.losePoint();
-				//console.log("miss");
-			}
-        }
-	}
+    update() {};
 }
 
 class AimBall {
@@ -129,7 +89,7 @@ class AimBall {
 		this.game = game;
         this.ballhitSound = new Audio("./audio/ripped From Aimlab LOL.wav");
         this.ballhitSound.volume = .15;
-		this.bool = true;
+		this.canShoot = true;
         // this.ballSize = 1;
     }
 
@@ -151,7 +111,8 @@ class AimBall {
         // horizontal and vertical of ball on big picture (pixels) 
         // SHOULD BE CHANGED IF PHOTO IS CHANGED
 
-        if (clickFlag == true && this.bool) {
+        if (clickFlag == true && this.canShoot) {
+			this.game.shots += .3;
             this.ballhitSound.play();
             if (reticleX >= startX && reticleX <= endX
                 && reticleY >= startY && reticleY <= endY) {
@@ -203,6 +164,10 @@ class GridShot{
 		this.game.addEntity(this.aimball[1]);
 		this.game.addEntity(this.aimball[0]);
         this.game.addEntity(this.gun);
+		this.hud = new HUD(gameEngine);
+        this.game.addEntity(this.hud);
+		this.hud.f = true;
+		this.hud.title = false;
 	}
 
 	draw(ctx){}
@@ -217,7 +182,8 @@ class GridShot{
             this.game.setEntityNull(this.game.entities.indexOf(this.aimball[1]));
 			this.game.addEntity(this.aimball[1]);
             this.game.addEntity(this.aimball[0]);
-            this.game.addEntity(this.gun); 
+            this.game.addEntity(this.gun);
+			this.game.addEntity(this.hud); 
 		};
 		if(this.aimball[2].removeFromWorld == true){
 			var x = this.aimball[2].x;
@@ -229,6 +195,7 @@ class GridShot{
 			this.game.addEntity(this.aimball[2]);
             this.game.addEntity(this.aimball[0]);
             this.game.addEntity(this.gun); 
+			this.game.addEntity(this.hud);
 		};
 		if(this.aimball[3].removeFromWorld == true){
 			var x = this.aimball[3].x;
@@ -240,17 +207,12 @@ class GridShot{
             this.game.addEntity(this.aimball[3]);
             this.game.addEntity(this.aimball[0]);
             this.game.addEntity(this.gun); 
+			this.game.addEntity(this.hud);
 		};
-		//if(this.game.g == true){
-			//if(this.game.timerO > 1){
-				//this.game.setTimer(-1/60);
-			//};
-			//this.game.startTimer();
-		//};
 		if(this.aimball[0].end){
 			var i;
 			for(i = 1; i < this.aimball.length; i++){
-				this.aimball[i].bool = false;
+				this.aimball[i].canShoot = false;
 			}
 		}
 	}
@@ -288,72 +250,44 @@ class GridShot{
     };
  }
 
- //broken tracking mode
-class GridShot1{
-	constructor(game){
+ class mainMenu{
+ 	 constructor(game){
 		this.game = game;
-		this.aimball = [];
-
-		this.aimball[0] = new HUD(gameEngine);
-		this.aimball[1] = new AimBall(gameEngine, 300, 200);
-        this.gun = new Gun(gameEngine);
-		this.game.addEntity(this.aimball[1]);
-		this.game.addEntity(this.aimball[0]);
-        this.game.addEntity(this.gun);
-	}
-
-	draw(ctx){}
-	
-    update(){
-		var x = this.aimball[1].x;
-		var y = this.aimball[1].y;
-		
-		
-
-		if(this.aimball[1].removeFromWorld == true){
-			this.aimball[1] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
-		}
-		else{
-			if(x <= 850){
-				this.aimball[1].removeFromWorld = true;
-				this.aimball[1] = new AimBall(gameEngine, (x + 5), (y));
+		this.buttons = [];
+		this.buttons[0] = new AimBall(gameEngine,500,500);
+		this.buttons[1] = new AimBall(gameEngine,700,500);
+		this.game.addEntity(this.buttons[0]);
+		this.game.addEntity(this.buttons[1]);
+		this.buttons[2] = new Gun(gameEngine);
+		this.game.addEntity(this.buttons[2]);
+		this.hud = new HUD(gameEngine);
+        this.game.addEntity(this.hud);
+		this.trigger = 0;
+	 };
+	 draw(ctx){};
+	 update(){
+		if(this.buttons != null){
+			if(this.buttons[0].removeFromWorld == true){
+				this.trigger = 1;
 			};
-			//console.log("+");
+			if(this.buttons[1].removeFromWorld == true){
+				this.trigger = 2;
+			};
 		};
-		this.game.addEntity(this.aimball[1]);
-        this.game.addEntity(this.gun); 
-		this.game.addEntity(this.aimball[0]);
-	}
-
-    rerollX(arrayPlace) {
-        let difference = 850-(-380);
-        var a = 0, b = 0, yeah = Math.floor(Math.random() * difference) -380 + 1;
-
-        if (arrayPlace == 1) a = 3, b = 2;
-        if (arrayPlace == 2) a = 3, b = 1;
-        if (arrayPlace == 3) a = 2, b = 1;
-
-        while ((yeah >= this.aimball[a].x && yeah <= this.aimball[a].x+100)
-                || (yeah >= this.aimball[b].x && yeah <= this.aimball[b].x+100)) {
-                    yeah = Math.floor(Math.random() * difference) -380 + 1;
-                }
-
-        return yeah;
-    };
-
-    rerollY(arrayPlace) {
-        let difference = 450-(-180);
-        var a = 0, b = 0, yeah = Math.floor(Math.random() * difference) -180 + 1;
-
-        if (arrayPlace == 1) a = 3, b = 2;
-        if (arrayPlace == 2) a = 3, b = 1;
-        if (arrayPlace == 3) a = 2, b = 1;
-
-        while ((yeah >= this.aimball[a].y && yeah <= this.aimball[a].y+100)
-                || (yeah >= this.aimball[b].y && yeah <= this.aimball[b].y+100)) {
-                    yeah = Math.floor(Math.random() * difference) -180 + 1;
-                }
-
-        return yeah;
-    };
- } 
+		if(this.trigger == 1){
+			this.trigger = 0;
+			this.buttons[1].removeFromWorld = true;
+			this.watcher();
+			var gridshot = new GridShot(gameEngine);
+			this.game.addEntity(gridshot);
+		}
+		if(this.trigger == 2){
+			//credits
+			this.watcher()
+		}
+	 };
+	 watcher(){
+		this.buttons = null;
+		this.hud = null;
+	 };
+ }

@@ -9,13 +9,12 @@ class SceneManager {
         var background = new Background(gameEngine);
         this.game.addEntity(background);
 
-		var grid = new GridShot(gameEngine);
-		this.game.addEntity(grid);
-        
-        var hud = new HUD(gameEngine);
-        this.game.addEntity(hud);
+		//var grid = new GridShot(gameEngine);
+		//this.game.addEntity(grid);
 
-        // var gun = new Gun(gameEngine);
-        // this.game.addEntity(gun);
+		var b = new mainMenu(gameEngine);
+		this.game.addEntity(b);
+		
+
     };
 }
