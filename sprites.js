@@ -16,6 +16,23 @@ class Background {
             this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
     }
 }
+class BackgroundWords {
+    constructor(game) {
+        Object.assign(this, { game });
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Main_menu_words.png");
+        this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
+    };
+
+    draw(ctx) {
+        this.animation.drawFrame(this.game.clockTick, ctx, -150, 0, 1);
+    }
+
+    update() {
+        this.animation = new Animator(this.spritesheet, this.game.cameraX, this.game.cameraY, 
+            this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
+    }
+}
+
 
 // have a seperate gun class for static image and one for animating
 class Gun {
@@ -68,7 +85,7 @@ class HUD {
 		};
 		if(this.end){			
 			ctx.fillText("GAME OVER!", (VISIBLE_X/2)-156, (VISIBLE_Y/2)+16);
-			ctx.fillText(this.game.returnAccuracy(), (VISIBLE_X/2)-156, (VISIBLE_Y/2)+116);
+			ctx.fillText(this.game.returnAccuracy(), (VISIBLE_X/2)-200, (VISIBLE_Y/2)+116);
 			ctx.fillText("REFRESH TO CHOOSE A NEW GAME MODE!", (VISIBLE_X/2)-475.69420, (VISIBLE_Y/2)+216);
 		};
         // 64 is x and y of reticle
@@ -78,7 +95,7 @@ class HUD {
 }
 
 class AimBall {
-    constructor(game, x, y) {
+    constructor(game, x, y, m) {
         Object.assign(this, { game, x, y});
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/theAimball.png");
         this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
@@ -87,6 +104,7 @@ class AimBall {
         this.ballhitSound = new Audio("./audio/ripped From Aimlab LOL.wav");
         this.ballhitSound.volume = .15;
 		this.canShoot = true;
+		this.m = m;
     }
 
     draw(ctx) {
@@ -108,16 +126,23 @@ class AimBall {
         // SHOULD BE CHANGED IF PHOTO IS CHANGED
 
         if (clickFlag == true && this.canShoot) {
-			this.game.shots += .3;
+			if(this.m == false){
+				this.game.shots += 1;
+			}
+			console.log(2);
             this.ballhitSound.play();
             if (reticleX >= startX && reticleX <= endX
                 && reticleY >= startY && reticleY <= endY) {
                 this.ballhitSound.play();
                 this.removeFromWorld = true;
-				this.game.addPoint();
+				if(this.m == false){
+					this.game.addPoint();
+				}
 					//console.log("hit");
             } else {
-				this.game.losePoint();
+				if(this.m == false){
+					this.game.losePoint();
+				}
 				//console.log("miss");
 			}
         }
@@ -159,7 +184,8 @@ class AimBallRed {
         let startX = this.x + 2286, startY = this.y + 721, endX = this.x + 2376, endY = this.y + 810;
 
         if (clickFlag == true && this.canShoot) {
-			this.game.shots += .3;
+			this.game.shots += 1;
+			console.log(3);
             this.ballhitSound.play();
             if (reticleX >= startX && reticleX <= endX
                 && reticleY >= startY && reticleY <= endY) {
@@ -167,6 +193,69 @@ class AimBallRed {
                 this.removeFromWorld = true;
 				this.game.losePoint(true);
             }
+        }
+    }
+
+    moveBall(x,y) {
+        this.x += x;
+        this.y += y;
+    }
+
+	turnOn(){
+		this.removeFromWorld = false;
+	};
+}
+class AimBallGreen {
+    constructor(game, x, y, m) {
+        Object.assign(this, { game, x, y});
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/theAimballGreen.png");
+        this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
+        this.currentReticleX = (VISIBLE_X/2);
+        this.currentReticleY = (VISIBLE_Y/2);
+        this.ballhitSound = new Audio("./audio/ripped From Aimlab LOL.wav");
+        this.ballhitSound.volume = .15;
+		this.canShoot = true;
+		this.m = m;
+    }
+
+    draw(ctx) {
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1); // use this.x and this.y
+    }
+
+    update() {
+        this.animation = new Animator(this.spritesheet, this.game.cameraX, this.game.cameraY, 
+            this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
+        this.onCircle(this.game.cameraX + this.currentReticleX, this.game.cameraY + this.currentReticleY, this.game.clickFlag);
+		// adds current camera x,y + the current x,y reticle's center (the camera's exact center)
+	}
+
+    onCircle(reticleX, reticleY, clickFlag) {
+        // OLD let startX = this.x + 720, startY = this.y + 399, endX = this.x + 781, endY = this.y + 460; 
+        let startX = this.x + 2286, startY = this.y + 721, endX = this.x + 2376, endY = this.y + 810; 
+
+        // horizontal and vertical of ball on big picture (pixels) 
+        // SHOULD BE CHANGED IF PHOTO IS CHANGED
+
+        if (clickFlag == true && this.canShoot) {
+			if(this.m == false){
+				this.game.shots += 1;
+			}
+			console.log(2);
+            this.ballhitSound.play();
+            if (reticleX >= startX && reticleX <= endX
+                && reticleY >= startY && reticleY <= endY) {
+                this.ballhitSound.play();
+                this.removeFromWorld = true;
+				if(this.m == false){
+					this.game.addPoint();
+				}
+					//console.log("hit");
+            } else {
+				if(this.m == false){
+					this.game.losePoint();
+				}
+				//console.log("miss");
+			}
         }
     }
 
@@ -208,7 +297,8 @@ class AimPerson {
         let startXBody = this.x + 2283, startYBody = this.y + 811, endXBody = this.x + 2381, endYBody = this.y + 965; 
 
         if (clickFlag == true && this.canShoot) {
-			this.game.shots += .3;
+			this.game.shots += 1;
+			console.log(4);
             this.ballhitSound.play();
 
             if (reticleX >= startXHead && reticleX <= endXHead
@@ -267,7 +357,8 @@ class AimPersonRed {
         let startXBody = this.x + 2283, startYBody = this.y + 811, endXBody = this.x + 2381, endYBody = this.y + 965; 
 
         if (clickFlag == true && this.canShoot) {
-			this.game.shots += .3;
+			this.game.shots += 1;
+			console.log(1);
             this.ballhitSound.play();
 
             if (reticleX >= startXHead && reticleX <= endXHead

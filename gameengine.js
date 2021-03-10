@@ -15,8 +15,8 @@ class GameEngine {
         this.cameraX = null;
         this.cameraY = null;
 		this.points = 70;
-		this.hits = -1;
-		this.shots = -1;
+		this.hits = 0;
+		this.shots = -2;
 		this.g = false
 		this.timerO = -1;
 		this.retTime = 60;
@@ -31,13 +31,10 @@ class GameEngine {
 	losePoint(bigLoss){
         if (bigLoss) this.points -= 150;
         else this.points -= 23.66;
-		//console.log(this.points)
 	};
 
 	finalizePoints(){
 		this.points = Math.floor(this.points);
-		this.hits = Math.floor(this.hits);
-		this.misses = Math.floor(this.misses);
 	};
     
 	printScore(){
@@ -45,8 +42,10 @@ class GameEngine {
 	};
 
 	returnAccuracy(){
-		//return("ACCURACY: " + Math.floor((this.hits/this.shots)*100) + "%");
-		return("");
+		if(this.shots == 0){
+			return("ACCURACY: 0%");
+		}
+		return("ACCURACY: " + Math.floor((this.hits/(this.shots/3))*100) + "%");
 	}
 
 	printTimer(game){
@@ -54,7 +53,7 @@ class GameEngine {
 			this.timerO = Date.now(); 
 		}
 		if(this.retTime>0){
-			this.retTime = Math.ceil(60-((Date.now()-this.timerO)/1000));
+			this.retTime = Math.ceil(5-((Date.now()-this.timerO)/1000));
 		} else {
 			this.retTime = 0
 		}

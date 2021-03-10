@@ -4,12 +4,14 @@ class mainMenu{
       this.buttons = [];
       this.trigger = 0;
 
-      this.buttons[0] = new AimBall(gameEngine,500,500);
-      this.buttons[1] = new AimBallRed(gameEngine,700,500);
-      this.buttons[2] = new Gun(gameEngine);
+      this.buttons[0] = new AimBall(gameEngine,250,150,true);
+      this.buttons[1] = new AimBallRed(gameEngine,250,300,true);
+	  this.buttons[2] = new AimBallGreen(gameEngine,250,450,true);
+      this.buttons[3] = new Gun(gameEngine);
       this.hud = new HUD(gameEngine);
-
-      this.game.addEntity(this.buttons[0]);
+	  this.buttons[4] = new BackgroundWords(gameEngine);
+      this.game.addEntity(this.buttons[4]);
+	  this.game.addEntity(this.buttons[0]);
       this.game.addEntity(this.buttons[1]);
       this.game.addEntity(this.buttons[2]);
       this.game.addEntity(this.hud);
@@ -21,15 +23,20 @@ class mainMenu{
       if(this.buttons != null){
           if(this.buttons[0].removeFromWorld == true){
               this.trigger = 1;
-          };
+		  };
           if(this.buttons[1].removeFromWorld == true){
               this.trigger = 2;
+		  };
+		  if(this.buttons[3].removeFromWorld == true){
+              this.trigger = 3;
           };
       };
       
       if(this.trigger == 1){
           this.trigger = 0;
           this.buttons[1].removeFromWorld = true;
+		  this.buttons[2].removeFromWorld = true;
+		  this.buttons[4].removeFromWorld = true;
           this.watcher();
           var gridshot = new GridShot(gameEngine);
           this.game.addEntity(gridshot);
@@ -38,6 +45,17 @@ class mainMenu{
       if(this.trigger == 2){
         this.trigger = 0;
         this.buttons[0].removeFromWorld = true;
+		this.buttons[2].removeFromWorld = true;
+		this.buttons[4].removeFromWorld = true;
+        this.watcher();
+        var moving = new Moving(gameEngine);
+        this.game.addEntity(moving);
+      }
+	  if(this.trigger == 3){
+        this.trigger = 0;
+        this.buttons[0].removeFromWorld = true;
+		this.buttons[1].removeFromWorld = true;
+		this.buttons[4].removeFromWorld = true;
         this.watcher();
         var moving = new Moving(gameEngine);
         this.game.addEntity(moving);
@@ -47,12 +65,14 @@ class mainMenu{
    watcher(){
       this.buttons = null;
       this.hud = null;
+	  this.words = null;
    };
 }
 
 class Moving{
     constructor(game){
 		this.game = game;
+		this.game.shots -= 2;
         this.target = [];
         this.moveRight = [];
         this.speed = 0;
@@ -137,11 +157,11 @@ class GridShot{
 		this.aimball = [];
 
 		this.aimball[0] = new HUD(gameEngine);
-		this.aimball[1] = new AimBall(gameEngine, 500, 250);
+		this.aimball[1] = new AimBall(gameEngine, 500, 250, false);
         // this.aimball[1]= new AimBall(gameEngine, 850, 450); //MAX
         // this.aimball[1]= new AimBall(gameEngine, -380, -180); //MIN
-        this.aimball[2]= new AimBall(gameEngine, 300, 200);
-        this.aimball[3]= new AimBall(gameEngine, 100, 150);
+        this.aimball[2]= new AimBall(gameEngine, 300, 200, false);
+        this.aimball[3]= new AimBall(gameEngine, 100, 150, false);
         this.gun = new Gun(gameEngine);
         
 		this.game.addEntity(this.aimball[3]);
@@ -159,7 +179,7 @@ class GridShot{
 	
     update(){
 		if(this.aimball[1].removeFromWorld == true){
-			this.aimball[1] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
+			this.aimball[1] = new AimBall(gameEngine, this.rerollX(), this.rerollY(), false);
 
             this.game.setEntityNull(this.game.entities.indexOf(this.aimball[1]));
 			this.game.addEntity(this.aimball[1]);
@@ -167,7 +187,7 @@ class GridShot{
             this.game.addEntity(this.aimball[0]);
 		};
 		if(this.aimball[2].removeFromWorld == true){
-			this.aimball[2] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
+			this.aimball[2] = new AimBall(gameEngine, this.rerollX(), this.rerollY(), false);
 
             this.game.setEntityNull(this.game.entities.indexOf(this.aimball[2]));
 			this.game.addEntity(this.aimball[2]);
@@ -175,7 +195,7 @@ class GridShot{
             this.game.addEntity(this.aimball[0]);
 		};
 		if(this.aimball[3].removeFromWorld == true){
-            this.aimball[3] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
+            this.aimball[3] = new AimBall(gameEngine, this.rerollX(), this.rerollY(), false);
 			
             this.game.setEntityNull(this.game.entities.indexOf(this.aimball[3]));
             this.game.addEntity(this.aimball[3]);

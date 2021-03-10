@@ -6,9 +6,9 @@ class SceneManager {
     };
 
     drawMainMenu() {
+		
         var background = new Background(gameEngine);
         this.game.addEntity(background);
-
 		//var grid = new GridShot(gameEngine);
 		//this.game.addEntity(grid);
 
