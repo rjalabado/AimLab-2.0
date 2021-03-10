@@ -89,10 +89,6 @@ class HUD {
 			this.something = false;
 			this.titleAnimate.removeFromWorld = true;
 			this.backgroundMusic = new Audio("./audio/Dr - I Keep Holding On (My Hope Will Never Die).wav");
-            this.backgroundMusic.volume = 0.01;
-            this.backgroundMusic.play();
-			this.backgroundMusic = null;
-
 		};
 		if(this.f){
 			ctx.fillText(this.game.printScore(), 50, 50);
@@ -110,8 +106,6 @@ class HUD {
     }
 
     update() {};
-	music(){
-	};
 }
 
 class AimBall {
