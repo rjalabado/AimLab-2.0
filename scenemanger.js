@@ -9,8 +9,6 @@ class SceneManager {
 		
         var background = new Background(gameEngine);
         this.game.addEntity(background);
-		//var grid = new GridShot(gameEngine);
-		//this.game.addEntity(grid);
 
 		var start = new mainMenu(gameEngine);
 		this.game.addEntity(start);
