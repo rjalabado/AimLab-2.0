@@ -2,17 +2,21 @@ class mainMenu{
     constructor(game){
       this.game = game;
       this.buttons = [];
+      this.trigger = 0;
+
       this.buttons[0] = new AimBall(gameEngine,500,500);
-      this.buttons[1] = new AimBall(gameEngine,700,500);
+      this.buttons[1] = new AimBallRed(gameEngine,700,500);
+      this.buttons[2] = new Gun(gameEngine);
+      this.hud = new HUD(gameEngine);
+
       this.game.addEntity(this.buttons[0]);
       this.game.addEntity(this.buttons[1]);
-      this.buttons[2] = new Gun(gameEngine);
       this.game.addEntity(this.buttons[2]);
-      this.hud = new HUD(gameEngine);
       this.game.addEntity(this.hud);
-      this.trigger = 0;
    };
+
    draw(ctx){};
+
    update(){
       if(this.buttons != null){
           if(this.buttons[0].removeFromWorld == true){
@@ -22,6 +26,7 @@ class mainMenu{
               this.trigger = 2;
           };
       };
+      
       if(this.trigger == 1){
           this.trigger = 0;
           this.buttons[1].removeFromWorld = true;
@@ -29,15 +34,98 @@ class mainMenu{
           var gridshot = new GridShot(gameEngine);
           this.game.addEntity(gridshot);
       }
+      
       if(this.trigger == 2){
-          //credits
-          this.watcher()
+        this.trigger = 0;
+        this.buttons[0].removeFromWorld = true;
+        this.watcher();
+        var moving = new Moving(gameEngine);
+        this.game.addEntity(moving);
       }
    };
+
    watcher(){
       this.buttons = null;
       this.hud = null;
    };
+}
+
+class Moving{
+    constructor(game){
+		this.game = game;
+        this.target = [];
+        this.moveRight = [];
+        this.speed = 0;
+        this.speed2 = 0;
+
+        this.target[0] = new HUD(gameEngine);
+        this.target[1] = new AimPerson(gameEngine, 500, 235);
+        this.target[2] = new AimPerson(gameEngine, 300, 235);
+        this.target[3] = new AimPersonRed(gameEngine, 800, 235);
+        this.target[4] = new AimPersonRed(gameEngine, -200, 235);
+        this.target[5] = new AimPersonRed(gameEngine, 100, 235);
+        this.gun = new Gun(gameEngine);
+
+        this.game.addEntity(this.target[5]);
+        this.game.addEntity(this.target[4]);
+        this.game.addEntity(this.target[3]);
+        this.game.addEntity(this.target[2]);
+        this.game.addEntity(this.target[1]);
+        this.game.addEntity(this.target[0]);
+        this.game.addEntity(this.gun);
+
+        this.moveRight[1] = true;
+        this.moveRight[2] = false;
+        this.moveRight[3] = true;
+        this.moveRight[4] = false;
+        this.moveRight[5] = true;
+
+        this.target[0].f = true;
+		this.target[0].title = false;
+    }
+
+    draw(ctx){}
+
+    update(){
+        let i = 1;
+        this.switchItUp += 1;
+
+        while (i<=5) {
+        if(this.target[i].removeFromWorld == true){
+			if (i <= 2) this.target[i] = new AimPerson(gameEngine, this.rerollBodyX(), 235);
+            else this.target[i] = new AimPersonRed(gameEngine, this.rerollBodyX(), 235);
+
+            this.game.setEntityNull(this.game.entities.indexOf(this.target[i]));
+			this.game.addEntity(this.target[i]);
+            this.game.addEntity(this.gun);
+            this.game.addEntity(this.target[0]);
+
+            if (this.moveRight[i]) this.moveRight[i] = false;
+            else this.moveRight[i] = true;
+            this.speed += .1;
+            this.speed2 = this.speed/2;
+		};
+        if (i>=2) {
+            if(this.target[i].x >= 850) this.moveRight[i] = false;
+            else if (this.target[i].x <= -200) this.moveRight[i] = true;
+
+            if (this.moveRight[i]) this.target[i].x += this.speed;
+            else this.target[i].x -= this.speed;
+            } else {
+                if(this.target[i].x >= 850) this.moveRight[i] = false;
+                else if (this.target[i].x <= -200) this.moveRight[i] = true;
+    
+                if (this.moveRight[i]) this.target[i].x += this.speed;
+                else this.target[i].x -= this.speed;
+            }
+        i++;
+        }
+    }
+
+    rerollBodyX() {
+        var yeah = Math.floor(Math.random() * 1050) + 1 -500;
+        return yeah;
+    }
 }
 
 //gamemode classes...
@@ -49,7 +137,6 @@ class GridShot{
 		this.aimball = [];
 
 		this.aimball[0] = new HUD(gameEngine);
-		
 		this.aimball[1] = new AimBall(gameEngine, 500, 250);
         // this.aimball[1]= new AimBall(gameEngine, 850, 450); //MAX
         // this.aimball[1]= new AimBall(gameEngine, -380, -180); //MIN
@@ -62,56 +149,45 @@ class GridShot{
 		this.game.addEntity(this.aimball[1]);
 		this.game.addEntity(this.aimball[0]);
         this.game.addEntity(this.gun);
-		this.hud = new HUD(gameEngine);
-        this.game.addEntity(this.hud);
-		this.hud.f = true;
-		this.hud.title = false;
+		// this.hud = new HUD(gameEngine);
+        // this.game.addEntity(this.hud);
+		this.aimball[0].f = true;   // these used .hud
+		this.aimball[0].title = false;
 	}
 
 	draw(ctx){}
 	
     update(){
 		if(this.aimball[1].removeFromWorld == true){
-			var x = this.aimball[1].x;
-			var y = this.aimball[1].y;
-
 			this.aimball[1] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
 
             this.game.setEntityNull(this.game.entities.indexOf(this.aimball[1]));
 			this.game.addEntity(this.aimball[1]);
-            this.game.addEntity(this.aimball[0]);
             this.game.addEntity(this.gun);
-			this.game.addEntity(this.hud); 
+            this.game.addEntity(this.aimball[0]);
 		};
 		if(this.aimball[2].removeFromWorld == true){
-			var x = this.aimball[2].x;
-			var y = this.aimball[2].y;
-
 			this.aimball[2] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
 
             this.game.setEntityNull(this.game.entities.indexOf(this.aimball[2]));
 			this.game.addEntity(this.aimball[2]);
-            this.game.addEntity(this.aimball[0]);
             this.game.addEntity(this.gun); 
-			this.game.addEntity(this.hud);
+            this.game.addEntity(this.aimball[0]);
 		};
 		if(this.aimball[3].removeFromWorld == true){
-			var x = this.aimball[3].x;
-			var y = this.aimball[3].y;
-
             this.aimball[3] = new AimBall(gameEngine, this.rerollX(), this.rerollY());
 			
             this.game.setEntityNull(this.game.entities.indexOf(this.aimball[3]));
             this.game.addEntity(this.aimball[3]);
-            this.game.addEntity(this.aimball[0]);
             this.game.addEntity(this.gun); 
-			this.game.addEntity(this.hud);
+            this.game.addEntity(this.aimball[0]);
 		};
 		if(this.aimball[0].end){
 			var i;
 			for(i = 1; i < this.aimball.length; i++){
 				this.aimball[i].canShoot = false;
 			}
+            this.game.addEntity(this.aimball[0]);
 		}
 	}
 
@@ -123,8 +199,8 @@ class GridShot{
         if (arrayPlace == 2) a = 3, b = 1;
         if (arrayPlace == 3) a = 2, b = 1;
 
-        while ((yeah >= this.aimball[a].x && yeah <= this.aimball[a].x+100)
-                || (yeah >= this.aimball[b].x && yeah <= this.aimball[b].x+100)) {
+        while ((yeah <= this.aimball[a].x && yeah >= this.aimball[a].x+100)
+                || (yeah <= this.aimball[b].x && yeah >= this.aimball[b].x+100)) {
                     yeah = Math.floor(Math.random() * difference) -380 + 1;
                 }
 
@@ -139,8 +215,8 @@ class GridShot{
         if (arrayPlace == 2) a = 3, b = 1;
         if (arrayPlace == 3) a = 2, b = 1;
 
-        while ((yeah >= this.aimball[a].y && yeah <= this.aimball[a].y+100)
-                || (yeah >= this.aimball[b].y && yeah <= this.aimball[b].y+100)) {
+        while ((yeah <= this.aimball[a].y && yeah >= this.aimball[a].y+100)
+                || (yeah <= this.aimball[b].y && yeah >= this.aimball[b].y+100)) {
                     yeah = Math.floor(Math.random() * difference) -180 + 1;
                 }
 

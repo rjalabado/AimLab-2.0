@@ -21,27 +21,34 @@ class GameEngine {
 		this.timerO = -1;
 		this.retTime = 60;
     };
-	addPoint(){
-		this.points += 297.32;
-		this.hits += 1;
-		//console.log(this.points);
+
+	addPoint(headShot){
+        if (headShot) this.points += 297.32;
+        else this.points += 297.32/2;
+        this.hits += 1
 	};
-	losePoint(){
-		this.points -= 23.66;
+
+	losePoint(bigLoss){
+        if (bigLoss) this.points -= 150;
+        else this.points -= 23.66;
 		//console.log(this.points)
 	};
+
 	finalizePoints(){
 		this.points = Math.floor(this.points);
 		this.hits = Math.floor(this.hits);
 		this.misses = Math.floor(this.misses);
 	};
+    
 	printScore(){
 		return ("SCORE: " + Math.ceil(this.points));
 	};
+
 	returnAccuracy(){
 		//return("ACCURACY: " + Math.floor((this.hits/this.shots)*100) + "%");
 		return("");
 	}
+
 	printTimer(game){
 		if(this.timerO == -1){
 			this.timerO = Date.now(); 

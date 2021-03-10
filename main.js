@@ -7,7 +7,12 @@ var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./sprites/reticle.png");
 ASSET_MANAGER.queueDownload("./sprites/theAimball.png");
+ASSET_MANAGER.queueDownload("./sprites/theAimballRed.png");
+ASSET_MANAGER.queueDownload("./sprites/theAimPerson.png");
+ASSET_MANAGER.queueDownload("./sprites/theAimPersonRed.png");
 ASSET_MANAGER.queueDownload("./sprites/Another Wallpaper 1.png");
+ASSET_MANAGER.queueDownload("./sprites/Another Wallpaper 2.png");
+ASSET_MANAGER.queueDownload("./sprites/Another Wallpaper 3.png");
 ASSET_MANAGER.queueDownload("./sprites/uwu.png");
 ASSET_MANAGER.queueDownload("./sprites/endCard.png");
 ASSET_MANAGER.queueDownload("./sprites/start.png");

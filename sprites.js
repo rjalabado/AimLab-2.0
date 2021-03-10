@@ -79,18 +79,14 @@ class HUD {
 
 class AimBall {
     constructor(game, x, y) {
-        Object.assign(this, { game });
+        Object.assign(this, { game, x, y});
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/theAimball.png");
-        this.x = x;
-        this.y = y;
         this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
         this.currentReticleX = (VISIBLE_X/2);
         this.currentReticleY = (VISIBLE_Y/2);
-		this.game = game;
         this.ballhitSound = new Audio("./audio/ripped From Aimlab LOL.wav");
         this.ballhitSound.volume = .15;
 		this.canShoot = true;
-        // this.ballSize = 1;
     }
 
     draw(ctx) {
@@ -116,12 +112,11 @@ class AimBall {
             this.ballhitSound.play();
             if (reticleX >= startX && reticleX <= endX
                 && reticleY >= startY && reticleY <= endY) {
-                    this.ballhitSound.play();
-                    this.removeFromWorld = true;
-					this.game.addPoint();
+                this.ballhitSound.play();
+                this.removeFromWorld = true;
+				this.game.addPoint();
 					//console.log("hit");
-            }
-			else{
+            } else {
 				this.game.losePoint();
 				//console.log("miss");
 			}
@@ -133,9 +128,166 @@ class AimBall {
         this.y += y;
     }
 
-    // changeSize(ballSize) {
-    //     this.ballSize -= ballSize;
-    // }
+	turnOn(){
+		this.removeFromWorld = false;
+	};
+}
+
+class AimBallRed {
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y});
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/theAimballRed.png");
+        this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
+        this.currentReticleX = (VISIBLE_X/2);
+        this.currentReticleY = (VISIBLE_Y/2);
+        this.ballhitSound = new Audio("./audio/ripped From Aimlab LOL.wav");
+        this.ballhitSound.volume = .15;
+		this.canShoot = true;
+    }
+
+    draw(ctx) {
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1); // use this.x and this.y
+    }
+
+    update() {
+        this.animation = new Animator(this.spritesheet, this.game.cameraX, this.game.cameraY, 
+            this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
+        this.onCircle(this.game.cameraX + this.currentReticleX, this.game.cameraY + this.currentReticleY, this.game.clickFlag);
+	}
+
+    onCircle(reticleX, reticleY, clickFlag) {
+        let startX = this.x + 2286, startY = this.y + 721, endX = this.x + 2376, endY = this.y + 810;
+
+        if (clickFlag == true && this.canShoot) {
+			this.game.shots += .3;
+            this.ballhitSound.play();
+            if (reticleX >= startX && reticleX <= endX
+                && reticleY >= startY && reticleY <= endY) {
+                this.ballhitSound.play();
+                this.removeFromWorld = true;
+				this.game.losePoint(true);
+            }
+        }
+    }
+
+    moveBall(x,y) {
+        this.x += x;
+        this.y += y;
+    }
+
+	turnOn(){
+		this.removeFromWorld = false;
+	};
+}
+
+class AimPerson {
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y});
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/theAimPerson.png");
+        this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
+        this.currentReticleX = (VISIBLE_X/2);
+        this.currentReticleY = (VISIBLE_Y/2);
+        this.ballhitSound = new Audio("./audio/ripped From Aimlab LOL.wav");
+        this.ballhitSound.volume = .15;
+		this.canShoot = true;
+    }
+
+    draw(ctx) {
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1);
+    }
+
+    update() {
+        this.animation = new Animator(this.spritesheet, this.game.cameraX, this.game.cameraY, 
+            this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
+        this.onTarget(this.game.cameraX + this.currentReticleX, this.game.cameraY + this.currentReticleY, this.game.clickFlag);
+    }
+
+    // basically the same thing as the aimball onCircle, accounts for headshots and body shots
+    onTarget(reticleX, reticleY, clickFlag) {
+        let startXHead = this.x + 2286, startYHead = this.y + 721, endXHead = this.x + 2376, endYHead = this.y + 810;
+        let startXBody = this.x + 2283, startYBody = this.y + 811, endXBody = this.x + 2381, endYBody = this.y + 965; 
+
+        if (clickFlag == true && this.canShoot) {
+			this.game.shots += .3;
+            this.ballhitSound.play();
+
+            if (reticleX >= startXHead && reticleX <= endXHead
+                && reticleY >= startYHead && reticleY <= endYHead) {
+                    this.ballhitSound.play();
+                    this.removeFromWorld = true;
+					this.game.addPoint(true);
+                    this.game.clickFlag = false;
+            } else if (reticleX >= startXBody && reticleX <= endXBody
+                && reticleY >= startYBody && reticleY <= endYBody) {
+                    this.ballhitSound.play();
+                    this.removeFromWorld = true;
+					this.game.addPoint(false);
+                    this.game.clickFlag = false;
+            } else{
+				this.game.losePoint();
+			}
+        }
+    }
+
+    movePerson(x,y) {
+        this.x += x;
+        this.y += y;
+    }
+
+	turnOn(){
+		this.removeFromWorld = false;
+	};
+}
+
+class AimPersonRed {
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y});
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/theAimPersonRed.png");
+        this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
+        this.currentReticleX = (VISIBLE_X/2);
+        this.currentReticleY = (VISIBLE_Y/2);
+        this.ballhitSound = new Audio("./audio/ripped From Aimlab LOL.wav");
+        this.ballhitSound.volume = .15;
+		this.canShoot = true;
+    }
+
+    draw(ctx) {
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, 1);
+    }
+
+    update() {
+        this.animation = new Animator(this.spritesheet, this.game.cameraX, this.game.cameraY, 
+            this.game.cameraX + VISIBLE_X, this.game.cameraY + VISIBLE_Y, 1, .30, 0, false, true);
+        this.onTarget(this.game.cameraX + this.currentReticleX, this.game.cameraY + this.currentReticleY, this.game.clickFlag);
+    }
+
+    // basically the same thing as the aimball onCircle, accounts for headshots and body shots
+    onTarget(reticleX, reticleY, clickFlag) {
+        let startXHead = this.x + 2286, startYHead = this.y + 721, endXHead = this.x + 2376, endYHead = this.y + 810;
+        let startXBody = this.x + 2283, startYBody = this.y + 811, endXBody = this.x + 2381, endYBody = this.y + 965; 
+
+        if (clickFlag == true && this.canShoot) {
+			this.game.shots += .3;
+            this.ballhitSound.play();
+
+            if (reticleX >= startXHead && reticleX <= endXHead
+                && reticleY >= startYHead && reticleY <= endYHead) {
+                    this.ballhitSound.play();
+                    this.removeFromWorld = true;
+					this.game.lostPoint(true);
+            } else if (reticleX >= startXBody && reticleX <= endXBody
+                && reticleY >= startYBody && reticleY <= endYBody) {
+                    this.ballhitSound.play();
+                    this.removeFromWorld = true;
+					this.game.losePoint(false);
+            }
+        }
+    }
+
+    movePerson(x,y) {
+        this.x += x;
+        this.y += y;
+    }
 
 	turnOn(){
 		this.removeFromWorld = false;
