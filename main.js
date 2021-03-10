@@ -16,6 +16,8 @@ ASSET_MANAGER.queueDownload("./sprites/Another Wallpaper 2.png");
 ASSET_MANAGER.queueDownload("./sprites/Another Wallpaper 3.png");
 ASSET_MANAGER.queueDownload("./sprites/Main_menu_words.png");
 ASSET_MANAGER.queueDownload("./sprites/uwu.png");
+ASSET_MANAGER.queueDownload("./sprites/Welcome_screen.png");
+
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
@@ -40,9 +42,6 @@ ASSET_MANAGER.downloadAll(function () {
 		click[1] = y;
 		 if(canvas.webkitRequestFullScreen) {
 	        canvas.webkitRequestFullScreen();
-			this.backgroundMusic = new Audio("./audio/Dr - I Keep Holding On (My Hope Will Never Die).wav");
-			this.backgroundMusic.volume = 0.07;
-			this.backgroundMusic.play();
          }else {
 		 	canvas.mozRequestFullScreen();
          }

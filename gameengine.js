@@ -17,7 +17,7 @@ class GameEngine {
 		this.points = 70;
 		this.hits = 0;
 		this.shots = -2;
-		this.g = false
+		this.g = false;
 		this.timerO = -1;
 		this.retTime = 60;
     };
@@ -53,7 +53,7 @@ class GameEngine {
 			this.timerO = Date.now(); 
 		}
 		if(this.retTime>0){
-			this.retTime = Math.ceil(5-((Date.now()-this.timerO)/1000));
+			this.retTime = Math.ceil(60-((Date.now()-this.timerO)/1000));
 		} else {
 			this.retTime = 0
 		}

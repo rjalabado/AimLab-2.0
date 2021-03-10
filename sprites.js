@@ -68,14 +68,30 @@ class HUD {
         Object.assign(this, { game });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/reticle.png");
         this.animation = new Animator(this.spritesheet, 0, 0, 5000, 2128, 1, .30, 0, false, true);
+		this.title = ASSET_MANAGER.getAsset("./sprites/Welcome_screen.png");
+		this.titleAnimate = new Animator(this.title, 0, 0, 1920, 1080, 1, .30, 0, false, true);
 		this.end = false;
 		this.f = false;
+		this.t = true;
+		this.something = true;
     }
 
     draw(ctx) {
 		ctx.fillStyle = "White";
 		ctx.font = '50px serif';
 		this.animation.drawFrame(this.game.clockTick, ctx, (VISIBLE_X/2)-(64*.5), (VISIBLE_Y/2)-(64*.5), .5);
+		if(this.t){
+			 this.titleAnimate.drawFrame(this.game.clockTick, ctx, 0, 0, 1);
+			 //console.log(Document.fullscreenElement);
+		};
+		if(this.something && this.game.g){
+			this.t = false;
+			this.something = false;
+			this.titleAnimate.removeFromWorld = true;
+			this.backgroundMusic = new Audio("./audio/Dr - I Keep Holding On (My Hope Will Never Die).wav");
+            this.backgroundMusic.volume = 0.01;
+            this.backgroundMusic.play();
+		};
 		if(this.f){
 			ctx.fillText(this.game.printScore(), 50, 50);
 			ctx.fillText(this.game.printTimer(this.game), 50, 100);
