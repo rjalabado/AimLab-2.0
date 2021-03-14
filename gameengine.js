@@ -20,6 +20,8 @@ class GameEngine {
 		this.g = false;
 		this.timerO = -1;
 		this.retTime = 60;
+		this.timerStart = 60;
+		this.mult = 1;
     };
 
 	addPoint(headShot){
@@ -53,7 +55,7 @@ class GameEngine {
 			this.timerO = Date.now(); 
 		}
 		if(this.retTime>0){
-			this.retTime = Math.ceil(60-((Date.now()-this.timerO)/1000));
+			this.retTime = Math.ceil(this.timerStart-((Date.now()-this.timerO)/1000)*this.mult);
 		} else {
 			this.retTime = 0
 		}

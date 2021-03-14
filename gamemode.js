@@ -27,7 +27,7 @@ class mainMenu{
           if(this.buttons[1].removeFromWorld == true){
               this.trigger = 2;
 		  };
-		  if(this.buttons[3].removeFromWorld == true){
+		  if(this.buttons[2].removeFromWorld == true){
               this.trigger = 3;
           };
       };
@@ -52,13 +52,13 @@ class mainMenu{
         this.game.addEntity(moving);
       }
 	  if(this.trigger == 3){
-        this.trigger = 0;
+         this.trigger = 0;
         this.buttons[0].removeFromWorld = true;
 		this.buttons[1].removeFromWorld = true;
 		this.buttons[4].removeFromWorld = true;
         this.watcher();
-        var moving = new Moving(gameEngine);
-        this.game.addEntity(moving);
+        var twitch = new Twitch(gameEngine);
+        this.game.addEntity(twitch);
       }
    };
 
@@ -209,6 +209,84 @@ class GridShot{
 			}
             this.game.addEntity(this.aimball[0]);
 		}
+	}
+
+    rerollX(arrayPlace) {
+        let difference = 850-(-380);
+        var a = 0, b = 0, yeah = Math.floor(Math.random() * difference) -380 + 1;
+
+        if (arrayPlace == 1) a = 3, b = 2;
+        if (arrayPlace == 2) a = 3, b = 1;
+        if (arrayPlace == 3) a = 2, b = 1;
+
+        while ((yeah <= this.aimball[a].x && yeah >= this.aimball[a].x+100)
+                || (yeah <= this.aimball[b].x && yeah >= this.aimball[b].x+100)) {
+                    yeah = Math.floor(Math.random() * difference) -380 + 1;
+                }
+
+        return yeah;
+    };
+
+    rerollY(arrayPlace) {
+        let difference = 450-(-180);
+        var a = 0, b = 0, yeah = Math.floor(Math.random() * difference) -180 + 1;
+
+        if (arrayPlace == 1) a = 3, b = 2;
+        if (arrayPlace == 2) a = 3, b = 1;
+        if (arrayPlace == 3) a = 2, b = 1;
+
+        while ((yeah <= this.aimball[a].y && yeah >= this.aimball[a].y+100)
+                || (yeah <= this.aimball[b].y && yeah >= this.aimball[b].y+100)) {
+                    yeah = Math.floor(Math.random() * difference) -180 + 1;
+                }
+
+        return yeah;
+    };
+ }
+
+ class Twitch{
+	constructor(game){
+		this.game = game;
+		this.game.timerStart = 10
+		this.aimball = [];
+
+		this.aimball[0] = new HUD(gameEngine);
+		this.aimball[1] = new AimBall(gameEngine, 500, 250, false);
+        this.gun = new Gun(gameEngine);
+        
+		this.game.addEntity(this.aimball[1]);
+		this.game.addEntity(this.aimball[0]);
+        this.game.addEntity(this.gun);
+		// this.hud = new HUD(gameEngine);
+        // this.game.addEntity(this.hud);
+		this.aimball[0].f = true;   // these used .hud
+		this.aimball[0].title = false;
+	}
+
+	draw(ctx){}
+	
+    update(){
+		if(this.aimball[1].removeFromWorld == true){
+			this.aimball[1] = new AimBall(gameEngine, this.rerollX(), this.rerollY(), false);
+
+            this.game.setEntityNull(this.game.entities.indexOf(this.aimball[1]));
+			this.game.addEntity(this.aimball[1]);
+            this.game.addEntity(this.gun);
+            this.game.addEntity(this.aimball[0]);
+			this.game.timerStart += 5;
+		};
+		if(this.aimball[1].timeRec == true){
+			this.game.timerStart -= 10;
+			this.aimball[1].timeRec = false;
+		}
+		if(this.aimball[0].end){
+			var i;
+			for(i = 1; i < this.aimball.length; i++){
+				this.aimball[i].canShoot = false;
+			}
+            this.game.addEntity(this.aimball[0]);
+		}
+		this.game.mult += (1/240);
 	}
 
     rerollX(arrayPlace) {

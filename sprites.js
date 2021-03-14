@@ -49,17 +49,15 @@ class Gun {
     };
 
     update() {
-        // if (this.game.clickFlag == true) {
-        //     // this.wingman.play();
-        // }
-        // if (this.game.clickFlag == true) {
-        //     this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 4, .05, 1, false, false);
-        //     // this.a += 1;
-        // }
-        // // if (this.a > 0) this.a += 1;
-        // // if (this.a == 20) {
-        // //     this.removeFromWorld = true;
-        // // }
+         if (this.game.clickFlag == true && this.a == 0) {
+             this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 4, .2, 1, false, false);
+             this.a += 1;
+         } 
+         if (this.a > 0) this.a += 1;
+         if (this.a == 150) {
+             this.animation = new Animator(this.spritesheet, 0, 0, 612, 754, 1, .2, 1, false, true);
+             this.a = 0;
+         }
     };
 }
 
@@ -119,6 +117,7 @@ class AimBall {
         this.ballhitSound.volume = .15;
 		this.canShoot = true;
 		this.m = m;
+		this.timeRec = false;
     }
 
     draw(ctx) {
@@ -156,6 +155,7 @@ class AimBall {
             } else {
 				if(this.m == false){
 					this.game.losePoint();
+					this.timeRec = true;
 				}
 				//console.log("miss");
 			}
